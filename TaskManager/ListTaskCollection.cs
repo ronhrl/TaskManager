@@ -9,6 +9,7 @@ public class ListTaskCollection : ITaskCollection
         get => _taskList.Count;
     }
     public bool IsReadOnly { get; }
+
     private List<Task> _taskList;
 
     public ListTaskCollection()
@@ -61,4 +62,9 @@ public class ListTaskCollection : ITaskCollection
     {
         return this._taskList.Remove(item);
     }
+    
+    // public ITaskCollection Sort(IComparable property)
+    // {
+    //     throw new NotImplementedException();
+    // }
 }
