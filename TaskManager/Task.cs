@@ -106,4 +106,17 @@ public class Task
     {
         _subTasks.Remove(subTask);
     }
+
+    public string GetPriorityAsString()
+    {
+        if (this.Priority == TaskPriority.Low)
+        {
+            return "Low";
+        } 
+        if (this.Priority == TaskPriority.Medium)
+        {
+            return "Medium";
+        }
+        return "High";
+    }
 }

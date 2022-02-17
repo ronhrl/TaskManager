@@ -40,7 +40,14 @@ public class ListTaskCollection : ITaskCollection
 
     public void Add(Task item)
     {
+        // TODO add check if title exist
         this._taskList.Add(item);
+    }
+
+    public void Update(Task oldTask, Task newTask)
+    {
+        // TODO add check if title exist
+        throw new NotImplementedException();
     }
 
     public void Clear()
