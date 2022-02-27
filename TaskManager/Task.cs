@@ -119,4 +119,48 @@ public class Task
         }
         return "High";
     }
+
+    public override string ToString()
+    {
+        string task = "";
+        task += "Title: " + Title + "\n";
+        task += "Creation Time: " + CreationTime + "\n";
+        task += "Is Done: " + IsDone + "\n";
+        task += "Priority: " + GetPriorityAsString() + "\n";
+
+        if (Description != null)
+        {
+            task += "Description: " + Description + "\n";
+        }
+
+        if (Labels.Count > 0)
+        {
+            task += "Labels:\n";
+            foreach (string label in Labels)
+            {
+                task += "\t" + label;
+            }
+
+            task += "\n";
+        }
+
+        if (DueTime != null)
+        {
+            task += "Due Time: " + DueTime + "\n";
+        }
+
+        if (SubTasks.Count > 0)
+        {
+            task += "Sub Tasks:\n";
+            int i = 1;
+            foreach (Task subTask in SubTasks)
+            {
+                task += $"{i}.\n";
+                task += subTask.ToString();
+                task += "\n";
+            }
+        }
+        
+        return task;
+    }
 }

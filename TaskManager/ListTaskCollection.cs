@@ -44,12 +44,6 @@ public class ListTaskCollection : ITaskCollection
         this._taskList.Add(item);
     }
 
-    public void Update(Task oldTask, Task newTask)
-    {
-        // TODO add check if title exist
-        throw new NotImplementedException();
-    }
-
     public void Clear()
     {
         this._taskList.Clear();
@@ -68,6 +62,17 @@ public class ListTaskCollection : ITaskCollection
     public bool Remove(Task item)
     {
         return this._taskList.Remove(item);
+    }
+    
+    public void Update(Task oldTask, Task newTask)
+    {
+        // TODO add check if title exist
+        throw new NotImplementedException();
+    }
+
+    public Task GetTaskAtIndex(int i)
+    {
+        return this._taskList[i];
     }
     
     // public ITaskCollection Sort(IComparable property)

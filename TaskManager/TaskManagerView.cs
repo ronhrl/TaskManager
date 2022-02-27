@@ -12,5 +12,5 @@ public abstract class TaskManagerView
         _controller = controller;
     }
     
-    public abstract void StartMenu();
+    public abstract void StartMainMenu();
 }
