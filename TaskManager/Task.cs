@@ -120,6 +120,31 @@ public class Task
         return "High";
     }
 
+    public void CopyTaskValues(Task other)
+    {
+        _title = other.Title;
+        _isDone = other.IsDone;
+        _priority = other.Priority;
+        _description = other.Description;
+        _dueTime = other.DueTime;
+        _labels = other.Labels;
+        _subTasks = other.SubTasks;
+    }
+
+    // TODO overrider Hash
+    public override bool Equals(object? obj)
+    {
+        if (obj == null || !GetType().Equals(obj.GetType()))
+        {
+            return false;
+        }
+        else
+        {
+            Task other = (Task)obj;
+            return Title == other.Title;
+        }
+    }
+
     public override string ToString()
     {
         string task = "";

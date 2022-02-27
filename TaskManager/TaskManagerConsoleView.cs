@@ -19,7 +19,7 @@ public class TaskManagerConsoleView : TaskManagerView
                 ShowTasksOption();
                 break;
             case 1:
-                ExitMenu();
+                ExitApp();
                 break;
         }
     }
@@ -27,7 +27,7 @@ public class TaskManagerConsoleView : TaskManagerView
     private ConsoleMenu CreateMainMenu()
     {
         string mainMenuPrompt = "Welcome to Task Manager!";
-        string[] options = { "Show My Tasks", "Add Task", "Exit" };
+        string[] options = { "Show My Tasks", "Exit" };
         return new ConsoleMenu(mainMenuPrompt, options);
     }
 
@@ -48,6 +48,35 @@ public class TaskManagerConsoleView : TaskManagerView
         return new ConsoleMenu(tasksMenuPrompt, options);
     }
 
+    private ConsoleMenu CreateTaskMenu(Task task)
+    {
+        string taskPrompt = task.ToString();
+        string[] options = { "Add Task", "Edit Task", "Delete Task", "Back to all Tasks" };
+        return new ConsoleMenu(taskPrompt, options);
+    }
+
+    private void ShowTaskOption(Task task)
+    {
+        ConsoleMenu taskMenu = CreateTaskMenu(task);
+        int selectedIndex = taskMenu.Run();
+        
+        switch (selectedIndex)
+        {
+            case 0:
+                // todo
+                break;
+            case 1:
+                // todo
+                break;
+            case 2:
+                DeleteTask(task);
+                break;
+            case 3:
+                ShowTasksOption();
+                break;
+        }
+    }
+
     private void ShowTasksOption()
     {
         ConsoleMenu tasksMenu = CreateTasksMenu();
@@ -59,28 +88,20 @@ public class TaskManagerConsoleView : TaskManagerView
         }
         else
         {
-            Console.Clear();
             ITaskCollection taskCollection = Controller.GetTasks();
-            Console.WriteLine(taskCollection.GetTaskAtIndex(selectedIndex));
+            ShowTaskOption(taskCollection.GetTaskAtIndex(selectedIndex));
         }
     }
-
-    // private void PrintTasks()
-    // {
-    //     ITaskCollection taskCollection = base.Controller.GetTasks();
-    //     int count = 1;
-    //     foreach (Task task in taskCollection)
-    //     {
-    //         Console.WriteLine(count + ". " + task.Title);
-    //         count++;
-    //     }
-    // }
-
     
-
-    private void ExitMenu()
+    private void ExitApp()
     {
         Console.WriteLine("Quitting...");
         Environment.Exit(0);
+    }
+
+    private void DeleteTask(Task task)
+    {
+        Controller.DeleteTask(task);
+        ShowTasksOption();
     }
 }

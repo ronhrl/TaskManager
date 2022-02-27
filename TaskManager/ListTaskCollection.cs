@@ -66,13 +66,53 @@ public class ListTaskCollection : ITaskCollection
     
     public void Update(Task oldTask, Task newTask)
     {
-        // TODO add check if title exist
-        throw new NotImplementedException();
+        for (int i = 0; i < _taskList.Count; i++)
+        {
+            if (!oldTask.Equals(_taskList[i]))
+            {
+                continue;
+            }
+
+            if (IsTitleExistsExcept(newTask, i))
+            {
+                throw new InvalidOperationException("Task with the same title already exists.");
+            }
+            
+            oldTask.CopyTaskValues(newTask);
+        }
+
+        throw new KeyNotFoundException("Task not found.");
     }
 
     public Task GetTaskAtIndex(int i)
     {
-        return this._taskList[i];
+        return _taskList[i];
+    }
+
+    private bool IsTaskExists(Task task)
+    {
+        foreach (Task currTask in _taskList)
+        {
+            if (task.Equals(currTask))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private bool IsTitleExistsExcept(Task task, int index)
+    {
+        for (int i = 0; i < _taskList.Count; i++)
+        {
+            if (task.Equals(_taskList[i]) && i != index)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
     
     // public ITaskCollection Sort(IComparable property)
