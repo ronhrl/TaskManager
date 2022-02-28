@@ -1,3 +1,5 @@
+using System.Data;
+
 namespace TaskManager;
 
 public class TaskManagerConsoleView : TaskManagerView
@@ -55,6 +57,15 @@ public class TaskManagerConsoleView : TaskManagerView
         return new ConsoleMenu(taskPrompt, options);
     }
 
+    private ConsoleMenu CreateEditTaskMenu(Task task)
+    {
+        string editTaskPrompt = task.ToString() + "\nChoose a property to change:";
+        string[] options =
+            { "Title", "Priority", "Is Done", "Description", 
+                "Due Time", "Labels", "Sub Tasks", "", "Save Changes", "Cancel" };
+        return new ConsoleMenu(editTaskPrompt, options);
+    }
+
     private void ShowTaskOption(Task task)
     {
         ConsoleMenu taskMenu = CreateTaskMenu(task);
@@ -66,7 +77,7 @@ public class TaskManagerConsoleView : TaskManagerView
                 // todo
                 break;
             case 1:
-                // todo
+                EditTaskOption(task);
                 break;
             case 2:
                 DeleteTask(task);
@@ -92,7 +103,85 @@ public class TaskManagerConsoleView : TaskManagerView
             ShowTaskOption(taskCollection.GetTaskAtIndex(selectedIndex));
         }
     }
-    
+
+    private void EditTaskOption(Task task)
+    {
+        ConsoleMenu editTaskMenu = CreateEditTaskMenu(task);
+        int selectedIndex = editTaskMenu.Run();
+
+        if (selectedIndex == editTaskMenu.GetNumOfOptions() - 1)
+        {
+            ShowTaskOption(task);
+        }
+        else
+        {
+            Task updatedTask = new Task(task.Title);
+            updatedTask.CopyTaskValues(task);
+
+            switch (selectedIndex)
+            {
+                case 0:
+                    EditTitleOption(updatedTask);
+                    break;
+                case 1:
+                    EditPriorityOption(updatedTask);
+                    break;
+            }
+        }
+    }
+
+    private void EditPriorityOption(Task updatedTask)
+    {
+        Console.WriteLine("Enter a priority (L / M / H):");
+        Task.TaskPriority newPriority = updatedTask.Priority;
+        string? priorityChar = Console.ReadLine();
+        if (priorityChar == null)
+        {
+            Console.WriteLine("Invalid Priority!");
+            Thread.Sleep(2000);
+            EditTaskOption(updatedTask);
+        }
+
+        if (priorityChar.Equals("H"))
+        {
+            newPriority = Task.TaskPriority.High;
+        }
+        else if (priorityChar.Equals("M"))
+        {
+            newPriority = Task.TaskPriority.Medium;
+        }
+        else if (priorityChar.Equals("L"))
+        {
+            newPriority = Task.TaskPriority.Low;
+        }
+        else
+        {
+            Console.WriteLine("Please choose from values (L / M / H)");
+            Thread.Sleep(2000);
+            EditTaskOption(updatedTask);
+        }
+
+        updatedTask.Priority = newPriority;
+        Console.Clear();
+        EditTaskOption(updatedTask);
+    }
+
+    private void EditTitleOption(Task updatedTask)
+    {
+        Console.WriteLine("Enter a title:");
+        string? newTitle = Console.ReadLine();
+        if (newTitle == null || newTitle.Equals(""))
+        {
+            Console.WriteLine("Invalid title!");
+            Thread.Sleep(2000);
+            EditTaskOption(updatedTask);
+        }
+
+        updatedTask.Title = newTitle;
+        Console.Clear();
+        EditTaskOption(updatedTask);
+    }
+
     private void ExitApp()
     {
         Console.WriteLine("Quitting...");

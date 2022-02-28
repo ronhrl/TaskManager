@@ -40,7 +40,10 @@ public class ListTaskCollection : ITaskCollection
 
     public void Add(Task item)
     {
-        // TODO add check if title exist
+        if (Contains(item))
+        {
+            throw new InvalidOperationException("Task with the same title already exists.");
+        }
         this._taskList.Add(item);
     }
 
@@ -51,7 +54,15 @@ public class ListTaskCollection : ITaskCollection
 
     public bool Contains(Task item)
     {
-        return this._taskList.Contains(item);
+        foreach (Task currTask in _taskList)
+        {
+            if (item.Equals(currTask))
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void CopyTo(Task[] array, int arrayIndex)
@@ -73,7 +84,7 @@ public class ListTaskCollection : ITaskCollection
                 continue;
             }
 
-            if (IsTitleExistsExcept(newTask, i))
+            if (ContainsExcept(newTask, i))
             {
                 throw new InvalidOperationException("Task with the same title already exists.");
             }
@@ -89,20 +100,7 @@ public class ListTaskCollection : ITaskCollection
         return _taskList[i];
     }
 
-    private bool IsTaskExists(Task task)
-    {
-        foreach (Task currTask in _taskList)
-        {
-            if (task.Equals(currTask))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private bool IsTitleExistsExcept(Task task, int index)
+    private bool ContainsExcept(Task task, int index)
     {
         for (int i = 0; i < _taskList.Count; i++)
         {

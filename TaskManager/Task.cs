@@ -14,7 +14,7 @@ public class Task
     public string Title
     {
         get => _title; 
-        // set => _title = value;
+        set => _title = value;
     }
     
     private DateTime _creationTime;
@@ -31,7 +31,7 @@ public class Task
     public TaskPriority Priority
     {
         get => _priority;
-        // set => _priority = value;
+        set => _priority = value;
     }
 
     // optional fields
@@ -123,6 +123,7 @@ public class Task
     public void CopyTaskValues(Task other)
     {
         _title = other.Title;
+        _creationTime = other.CreationTime;
         _isDone = other.IsDone;
         _priority = other.Priority;
         _description = other.Description;
