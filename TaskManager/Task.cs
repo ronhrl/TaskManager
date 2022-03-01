@@ -25,7 +25,12 @@ public class Task
     }
 
     private bool _isDone;
-    public bool IsDone { get; }
+
+    public bool IsDone
+    {
+        get => _isDone;
+        set => _isDone = value;
+    }
 
     private TaskPriority _priority;
     public TaskPriority Priority
@@ -39,12 +44,14 @@ public class Task
     public string? Description
     {
         get => _description;
+        set => _description = value;
     }
     
     private DateTime? _dueTime;
     public DateTime? DueTime
     {
         get => _dueTime;
+        set => _dueTime = value;
     }
 
     private List<string> _labels;
@@ -95,6 +102,11 @@ public class Task
     public void RemoveLabel(string label)
     {
         this._labels.Remove(label);
+    }
+
+    public bool IsContainLabel(string label)
+    {
+        return _labels.Contains(label);
     }
 
     public void AddSubTask(Task subTask)

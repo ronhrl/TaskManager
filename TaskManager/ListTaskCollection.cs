@@ -90,6 +90,7 @@ public class ListTaskCollection : ITaskCollection
             }
             
             oldTask.CopyTaskValues(newTask);
+            return;
         }
 
         throw new KeyNotFoundException("Task not found.");
