@@ -8,14 +8,16 @@ public class ConsoleTaskView : ConsoleView, ITaskView
     
     private readonly TestController _controller;
     private Task? _selectedTask;
-    private IView _callerView;
-    private string[] _options;
+    private readonly IView _callerView;
+    private IEditTaskView _editTaskView;
+    private readonly string[] _options;
 
-    public ConsoleTaskView(TestController controller, IView callerView, Task? selectedTask = null)
+    public ConsoleTaskView(TestController controller, IView callerView, IEditTaskView editTaskView, Task? selectedTask = null)
     {
         _controller = controller;
         _selectedTask = selectedTask;
         _callerView = callerView;
+        _editTaskView = editTaskView;
         _options = CreateOptions();
     }
 
@@ -40,7 +42,7 @@ public class ConsoleTaskView : ConsoleView, ITaskView
         switch (selectedIndex)
         {
             case 0:
-                // todo edit task view
+                EditTaskOption();
                 break;
             case 1:
                 DeleteTask(_selectedTask);
@@ -49,6 +51,21 @@ public class ConsoleTaskView : ConsoleView, ITaskView
             case 2:
                 _callerView.Start();
                 break;
+        }
+    }
+
+    private void EditTaskOption()
+    {
+        try
+        {
+            _editTaskView.SetSelectedTask(_selectedTask!);
+            _editTaskView.Start();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Error! {e.Message}");
+            Thread.Sleep(ERROR_MESSAGE_WAIT_TIME);
+            Start();
         }
     }
 

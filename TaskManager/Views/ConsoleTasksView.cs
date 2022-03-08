@@ -11,14 +11,16 @@ public class ConsoleTasksView : ConsoleView, ITasksView
     
     private readonly TestController _controller;
     private ITaskCollection _taskCollection;
-    private IView _callerView;
+    private readonly IView _callerView;
+    private ITaskView _taskView;
     private string[] _options;
 
-    public ConsoleTasksView(TestController controller, IView callerView)
+    public ConsoleTasksView(TestController controller, IView callerView, ITaskView taskView)
     {
         _controller = controller;
         _taskCollection = _controller.GetTasks();
         _callerView = callerView;
+        _taskView = taskView;
         _options = CreateOptions();
     }
 
@@ -43,17 +45,7 @@ public class ConsoleTasksView : ConsoleView, ITasksView
         }
         else if (selectedIndex == addTaskOption)
         {
-            try
-            {
-                _controller.AddTask(CreateTask());
-                Start();
-            }
-            catch (InvalidExpressionException e)
-            {
-                Console.WriteLine($"Error! {e.Message}");
-                Thread.Sleep(ERROR_MESSAGE_WAIT_TIME);
-                Start();
-            }
+            AddTaskOption();
         }
         else if (selectedIndex == dummyOption)
         {
@@ -61,8 +53,38 @@ public class ConsoleTasksView : ConsoleView, ITasksView
         }
         else
         {
-            Task selectedTask = _taskCollection.GetTaskAtIndex(selectedIndex);
-            // TODO show task
+            ShowTaskOption(selectedIndex);
+        }
+    }
+
+    private void ShowTaskOption(int selectedIndex)
+    {
+        Task selectedTask = _taskCollection.GetTaskAtIndex(selectedIndex);
+        try
+        {
+            _taskView.SetSelectedTask(selectedTask);
+            _taskView.Start();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine($"Error! {e.Message}");
+            Thread.Sleep(ERROR_MESSAGE_WAIT_TIME);
+            Start();
+        }
+    }
+
+    private void AddTaskOption()
+    {
+        try
+        {
+            _controller.AddTask(CreateTask());
+            Start();
+        }
+        catch (InvalidExpressionException e)
+        {
+            Console.WriteLine($"Error! {e.Message}");
+            Thread.Sleep(ERROR_MESSAGE_WAIT_TIME);
+            Start();
         }
     }
 

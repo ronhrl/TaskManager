@@ -1,6 +1,6 @@
 namespace TaskManager.Views;
 
-public interface ITaskView : IView
+public interface IEditTaskView : IView
 {
     public void SetSelectedTask(Task task);
 }

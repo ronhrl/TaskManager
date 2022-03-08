@@ -21,7 +21,6 @@ public class Task
     public DateTime CreationTime
     {
         get => _creationTime;
-        // set => _creationTime = value;
     }
 
     private bool _isDone;
@@ -84,15 +83,15 @@ public class Task
         _subTasks = subTasks ?? new List<Task>();
     }
 
-    public void MarkAsDone()
-    {
-        _isDone = true;
-    }
-
-    public void MarkAsUndone()
-    {
-        _isDone = false;
-    }
+    // public void MarkAsDone()
+    // {
+    //     _isDone = true;
+    // }
+    //
+    // public void MarkAsUndone()
+    // {
+    //     _isDone = false;
+    // }
 
     public void AddLabel(string label)
     {
