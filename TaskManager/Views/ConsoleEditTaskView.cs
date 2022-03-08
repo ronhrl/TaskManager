@@ -5,15 +5,17 @@ namespace TaskManager.Views;
 public class ConsoleEditTaskView : ConsoleView, IEditTaskView
 {
     private readonly TestController _controller;
-    private readonly IView _callerView;
+    // private readonly IView _callerView;
+    private readonly IMainView _mainView;
     private readonly string[] _options;
     private Task? _selectedTask;
     private Task? _updatedTask;
 
-    public ConsoleEditTaskView(TestController controller, IView callerView, Task? selectedTask = null)
+    public ConsoleEditTaskView(IMainView mainView, TestController controller, Task? selectedTask = null)
     {
         _controller = controller;
-        _callerView = callerView;
+        // _callerView = callerView;
+        _mainView = mainView;
         _selectedTask = selectedTask;
         if (_selectedTask != null)
         {
@@ -77,7 +79,7 @@ public class ConsoleEditTaskView : ConsoleView, IEditTaskView
                 SaveChangesToTask();
                 break;
             case 9:
-                _callerView.Start();
+                _mainView.ShowTaskView(_selectedTask!);
                 break;
         }
     }
@@ -97,7 +99,7 @@ public class ConsoleEditTaskView : ConsoleView, IEditTaskView
     private void SaveChangesToTask()
     {
         _controller.UpdateTask(_selectedTask!, _updatedTask!);
-        _callerView.Start();
+        _mainView.ShowTasksView();
     }
     
     private void EditTitleOption()
@@ -214,6 +216,7 @@ public class ConsoleEditTaskView : ConsoleView, IEditTaskView
             else
             {
                 _updatedTask!.AddLabel(label);
+                Start();
             }
         }
         else if (addOrRemove.Equals("r"))

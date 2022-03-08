@@ -4,23 +4,25 @@ namespace TaskManager.Views;
 
 public class ConsoleTasksView : ConsoleView, ITasksView
 {
-    private static readonly int SHOW_TASK_OPTION = 0;
+    // private static readonly int SHOW_TASK_OPTION = 0;
 
     private static readonly string IS_DONE_SYMBOL = "*";
     private static readonly string PROMPT = "Take a look at your tasks!";
     
     private readonly TestController _controller;
     private ITaskCollection _taskCollection;
-    private readonly IView _callerView;
-    private ITaskView _taskView;
+    private readonly IMainView _mainView;
+    // private readonly IView _callerView;
+    // private ITaskView _taskView;
     private string[] _options;
 
-    public ConsoleTasksView(TestController controller, IView callerView, ITaskView taskView)
+    public ConsoleTasksView(IMainView mainView, TestController controller)
     {
         _controller = controller;
+        _mainView = mainView;
         _taskCollection = _controller.GetTasks();
-        _callerView = callerView;
-        _taskView = taskView;
+        // _callerView = callerView;
+        // _taskView = taskView;
         _options = CreateOptions();
     }
 
@@ -35,13 +37,13 @@ public class ConsoleTasksView : ConsoleView, ITasksView
 
     private void ApplyAction(int selectedIndex, ConsoleMenu menu)
     {
-        int backToAllTasksOption = menu.GetNumOfOptions() - 1;
+        int backOption = menu.GetNumOfOptions() - 1;
         int addTaskOption = menu.GetNumOfOptions() - 2;
         int dummyOption = menu.GetNumOfOptions() - 3;
         
-        if (selectedIndex == backToAllTasksOption)
+        if (selectedIndex == backOption)
         {
-            _callerView.Start();
+            _mainView.ShowInitialView();
         }
         else if (selectedIndex == addTaskOption)
         {
@@ -62,8 +64,7 @@ public class ConsoleTasksView : ConsoleView, ITasksView
         Task selectedTask = _taskCollection.GetTaskAtIndex(selectedIndex);
         try
         {
-            _taskView.SetSelectedTask(selectedTask);
-            _taskView.Start();
+            _mainView.ShowTaskView(selectedTask);
         }
         catch (Exception e)
         {

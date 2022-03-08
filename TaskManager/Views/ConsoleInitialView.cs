@@ -1,14 +1,16 @@
 namespace TaskManager.Views;
 
-public class ConsoleMainMenuView : ConsoleView, IMainMenuView
+public class ConsoleInitialView : ConsoleView, IInitialView
 {
     private static readonly string _prompt = "Welcome to Task Manager!";
     private readonly string[] _options;
     private readonly TestController _controller;
+    private readonly IMainView _mainView;
 
-    public ConsoleMainMenuView(TestController controller)
+    public ConsoleInitialView(IMainView mainView, TestController controller)
     {
         _controller = controller;
+        _mainView = mainView;
         _options = CreateOptions();
     }
 
@@ -24,7 +26,7 @@ public class ConsoleMainMenuView : ConsoleView, IMainMenuView
         switch (selectedIndex)
         {
             case 0:
-                ShowTasks();
+                _mainView.ShowTasksView();
                 break;
             case 1:
                 ExitApp();
@@ -32,21 +34,21 @@ public class ConsoleMainMenuView : ConsoleView, IMainMenuView
         }
     }
 
-    private void ShowTasks()
-    {
-        try
-        {
-            IEditTaskView editTaskView = new ConsoleEditTaskView(_controller, this);
-            ITaskView taskView = new ConsoleTaskView(_controller, this, editTaskView);
-            ITasksView tasksView = new ConsoleTasksView(_controller, this, taskView);
-            tasksView.Start();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine($"Error! {e.Message}");
-            Start();
-        }
-    }
+    // private void ShowTasks()
+    // {
+    //     try
+    //     {
+    //         IEditTaskView editTaskView = new ConsoleEditTaskView(_controller, this);
+    //         ITaskView taskView = new ConsoleTaskView(_controller, this, editTaskView);
+    //         ITasksView tasksView = new ConsoleTasksView(_controller, this, taskView);
+    //         tasksView.Start();
+    //     }
+    //     catch (Exception e)
+    //     {
+    //         Console.WriteLine($"Error! {e.Message}");
+    //         Start();
+    //     }
+    // }
 
     private string[] CreateOptions()
     {

@@ -8,16 +8,18 @@ public class ConsoleTaskView : ConsoleView, ITaskView
     
     private readonly TestController _controller;
     private Task? _selectedTask;
-    private readonly IView _callerView;
-    private IEditTaskView _editTaskView;
+    // private readonly IView _callerView;
+    // private IEditTaskView _editTaskView;
+    private readonly IMainView _mainView;
     private readonly string[] _options;
 
-    public ConsoleTaskView(TestController controller, IView callerView, IEditTaskView editTaskView, Task? selectedTask = null)
+    public ConsoleTaskView(IMainView mainView, TestController controller, Task? selectedTask = null)
     {
         _controller = controller;
+        _mainView = mainView;
         _selectedTask = selectedTask;
-        _callerView = callerView;
-        _editTaskView = editTaskView;
+        // _callerView = callerView;
+        // _editTaskView = editTaskView;
         _options = CreateOptions();
     }
 
@@ -29,7 +31,7 @@ public class ConsoleTaskView : ConsoleView, ITaskView
         }
         ConsoleMenu taskMenu = new ConsoleMenu(_selectedTask.ToString(), _options);
         int selectedIndex = taskMenu.Run();
-        ApplyAction(selectedIndex, taskMenu);
+        ApplyAction(selectedIndex);
     }
 
     public void SetSelectedTask(Task task)
@@ -37,7 +39,7 @@ public class ConsoleTaskView : ConsoleView, ITaskView
         _selectedTask = task;
     }
 
-    private void ApplyAction(int selectedIndex, ConsoleMenu menu)
+    private void ApplyAction(int selectedIndex)
     {
         switch (selectedIndex)
         {
@@ -46,10 +48,10 @@ public class ConsoleTaskView : ConsoleView, ITaskView
                 break;
             case 1:
                 DeleteTask(_selectedTask);
-                _callerView.Start();
+                _mainView.ShowTasksView();
                 break;
             case 2:
-                _callerView.Start();
+                _mainView.ShowTasksView();
                 break;
         }
     }
@@ -58,8 +60,7 @@ public class ConsoleTaskView : ConsoleView, ITaskView
     {
         try
         {
-            _editTaskView.SetSelectedTask(_selectedTask!);
-            _editTaskView.Start();
+            _mainView.ShowEditTaskView(_selectedTask!);
         }
         catch (Exception e)
         {
