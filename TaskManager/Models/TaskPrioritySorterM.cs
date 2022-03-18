@@ -5,6 +5,10 @@ namespace TaskManager.Models;
 
 public class TaskPrioritySorterM : ITaskSorter
 {
+    public TaskPrioritySorterM()
+    {
+        
+    }
 
     public List<Task> Sort(ITaskCollection taskCollection)
     {
