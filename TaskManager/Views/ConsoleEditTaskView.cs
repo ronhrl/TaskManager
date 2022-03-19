@@ -4,16 +4,14 @@ namespace TaskManager.Views;
 
 public class ConsoleEditTaskView : ConsoleView, IEditTaskView
 {
-    private readonly TestController _controller;
     // private readonly IView _callerView;
-    private readonly IMainView _mainView;
+    private readonly MainView _mainView;
     private readonly string[] _options;
     private Task? _selectedTask;
     private Task? _updatedTask;
 
-    public ConsoleEditTaskView(IMainView mainView, TestController controller, Task? selectedTask = null)
+    public ConsoleEditTaskView(MainView mainView, Task? selectedTask = null)
     {
-        _controller = controller;
         // _callerView = callerView;
         _mainView = mainView;
         _selectedTask = selectedTask;
@@ -98,7 +96,7 @@ public class ConsoleEditTaskView : ConsoleView, IEditTaskView
     
     private void SaveChangesToTask()
     {
-        _controller.UpdateTask(_selectedTask!, _updatedTask!);
+        TestController.Instance.UpdateTask(_selectedTask!, _updatedTask!);
         _mainView.ShowTasksView();
     }
     

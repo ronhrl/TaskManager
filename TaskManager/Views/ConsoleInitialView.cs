@@ -4,12 +4,10 @@ public class ConsoleInitialView : ConsoleView, IInitialView
 {
     private static readonly string _prompt = "Welcome to Task Manager!";
     private readonly string[] _options;
-    private readonly TestController _controller;
-    private readonly IMainView _mainView;
+    private readonly MainView _mainView;
 
-    public ConsoleInitialView(IMainView mainView, TestController controller)
+    public ConsoleInitialView(MainView mainView)
     {
-        _controller = controller;
         _mainView = mainView;
         _options = CreateOptions();
     }
