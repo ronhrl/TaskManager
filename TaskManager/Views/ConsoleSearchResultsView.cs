@@ -1,24 +1,28 @@
 namespace TaskManager.Views;
 
-public class ConsoleSearchResultsView : ConsoleView, ISearchResultsView
+public class ConsoleSearchResultsView : SearchResultsView
 {
     private static readonly string PROMPT = "Here are your results:";
-    private readonly MainView _mainView;
-    private List<Task>? _results;
+    // private readonly MainView _mainView;
+    // private List<Task>? _results;
 
-    public ConsoleSearchResultsView(MainView mainView, List<Task>? results = null)
+    // public ConsoleSearchResultsView(MainView mainView, List<Task>? results = null)
+    // {
+    //     _mainView = mainView;
+    //     _results = results;
+    // }
+
+    public ConsoleSearchResultsView(MainView mainView, List<Task>? results = null) : base(mainView, results)
     {
-        _mainView = mainView;
-        _results = results;
     }
 
     public override void Start()
     {
-        if (_results == null || _results.Count == 0)
+        if (Results == null || Results.Count == 0)
         {
             Console.WriteLine("No results!");
-            Thread.Sleep(ERROR_MESSAGE_WAIT_TIME);
-            _mainView.ShowSearchView();
+            Thread.Sleep(ConsoleViewUtils.ErrorMessageWaitTime);
+            MainView.ShowSearchView();
         }
 
         string[] options = CreateOptions();
@@ -35,32 +39,32 @@ public class ConsoleSearchResultsView : ConsoleView, ISearchResultsView
         }
         else if (selectedIndex == menu.GetNumOfOptions() - 1) // back to all tasks option
         {
-            _mainView.ShowTasksView();
+            MainView.ShowTasksView();
         }
         else
         {
-            _mainView.ShowTaskView(_results![selectedIndex]);
+            MainView.ShowTaskView(Results![selectedIndex]);
         }
     }
 
-    public void SetResults(List<Task> results)
-    {
-        _results = results;
-        // _options = CreateOptions();
-    }
+    // public void SetResults(List<Task> results)
+    // {
+    //     _results = results;
+    //     // _options = CreateOptions();
+    // }
 
     private string[] CreateOptions()
     {
-        if (_results == null)
+        if (Results == null)
         {
             throw new InvalidOperationException("No results passed!");
         }
-        string[] options = new string[_results.Count + 2];
+        string[] options = new string[Results.Count + 2];
         
         int count = 0;
         for (; count < options.Length - 2; count++)
         {
-            options[count] = _results[count].Title;
+            options[count] = Results[count].Title;
         }
 
         options[count++] = "";

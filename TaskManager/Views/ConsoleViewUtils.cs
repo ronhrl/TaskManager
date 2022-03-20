@@ -3,13 +3,11 @@ using System.Text.RegularExpressions;
 
 namespace TaskManager.Views;
 
-public abstract class ConsoleView : IView
+public static class ConsoleViewUtils
 {
-    protected static readonly int ERROR_MESSAGE_WAIT_TIME = 2000;
+    public static readonly int ErrorMessageWaitTime = 2000;
     
-    public abstract void Start();
-
-    protected Task CreateTask()
+    public static Task CreateTask()
     {
         var title = GetTitleFromUser();
         var priority = GetPriorityFromUser();
@@ -20,7 +18,7 @@ public abstract class ConsoleView : IView
         return new Task(title, priority, description, dueDate, labels, subTasks);
     }
 
-    protected List<Task> GetSubTasksFromUser()
+    public static List<Task> GetSubTasksFromUser()
     {
         bool addSubTask = true;
         List<Task> subTasks = new List<Task>();
@@ -52,7 +50,7 @@ public abstract class ConsoleView : IView
         return subTasks;
     }
 
-    protected static List<string> GetLabelsFromUser()
+    public static List<string> GetLabelsFromUser()
     {
         Console.WriteLine("Please enter labels (format - <label1> <label2> <label3>. leave empty if wanted");
         string labelsString = Console.ReadLine() ?? throw new InvalidExpressionException("Invalid labels!");
@@ -69,7 +67,7 @@ public abstract class ConsoleView : IView
         return labels;
     }
 
-    protected static DateTime? GetDueDateFromUser()
+    public static DateTime? GetDueDateFromUser()
     {
         Console.WriteLine("Please enter a due date (format - dd/mm/yyyy. leave empty if wanted):");
         string dueDateString = Console.ReadLine() ?? throw new InvalidExpressionException("Invalid due date!");
@@ -91,7 +89,7 @@ public abstract class ConsoleView : IView
         return dueDate;
     }
 
-    protected static string? GetDescriptionFromUser()
+    public static string? GetDescriptionFromUser()
     {
         Console.WriteLine("Please enter a description (leave empty if wanted):");
         string? description = Console.ReadLine();
@@ -103,7 +101,7 @@ public abstract class ConsoleView : IView
         return description;
     }
 
-    protected static Task.TaskPriority GetPriorityFromUser()
+    public static Task.TaskPriority GetPriorityFromUser()
     {
         Console.WriteLine("Please enter a priority (format - L / M / H):");
         string priorityChar = Console.ReadLine() ?? throw new InvalidExpressionException("Invalid priority!");
@@ -128,7 +126,7 @@ public abstract class ConsoleView : IView
         return priority;
     }
 
-    protected static string GetTitleFromUser()
+    public static string GetTitleFromUser()
     {
         Console.WriteLine("Please enter a title:");
         string title = Console.ReadLine() ?? throw new InvalidExpressionException("Invalid title!");

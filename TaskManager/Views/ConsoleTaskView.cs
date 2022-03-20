@@ -1,32 +1,23 @@
 namespace TaskManager.Views;
 
-public class ConsoleTaskView : ConsoleView, ITaskView
+public class ConsoleTaskView : TaskView
 {
-    private Task? _selectedTask;
-    private readonly MainView _mainView;
-    private readonly string[] _options;
-
-    public ConsoleTaskView(MainView mainView, Task? selectedTask = null)
+    private static readonly string[] Options = new []{ "Edit Task", "Delete Task", "Back to all Tasks" };
+    
+    public ConsoleTaskView(MainView mainView, Task? selectedTask = null) : base(mainView, selectedTask)
     {
-        _mainView = mainView;
-        _selectedTask = selectedTask;
-        _options = CreateOptions();
     }
 
     public override void Start()
     {
-        if (_selectedTask == null)
+        if (SelectedTask == null)
         {
             throw new InvalidOperationException("No task selected!");
         }
-        ConsoleMenu taskMenu = new ConsoleMenu(_selectedTask.ToString(), _options);
+
+        ConsoleMenu taskMenu = new ConsoleMenu(SelectedTask.ToString(), Options);
         int selectedIndex = taskMenu.Run();
         ApplyAction(selectedIndex);
-    }
-
-    public void SetSelectedTask(Task task)
-    {
-        _selectedTask = task;
     }
 
     private void ApplyAction(int selectedIndex)
@@ -37,11 +28,11 @@ public class ConsoleTaskView : ConsoleView, ITaskView
                 EditTaskOption();
                 break;
             case 1:
-                DeleteTask(_selectedTask);
-                _mainView.ShowTasksView();
+                DeleteTask(SelectedTask);
+                MainView.ShowTasksView();
                 break;
             case 2:
-                _mainView.ShowTasksView();
+                MainView.ShowTasksView();
                 break;
         }
     }
@@ -50,19 +41,14 @@ public class ConsoleTaskView : ConsoleView, ITaskView
     {
         try
         {
-            _mainView.ShowEditTaskView(_selectedTask!);
+            MainView.ShowEditTaskView(SelectedTask!);
         }
         catch (Exception e)
         {
             Console.WriteLine($"Error! {e.Message}");
-            Thread.Sleep(ERROR_MESSAGE_WAIT_TIME);
+            Thread.Sleep(ConsoleViewUtils.ErrorMessageWaitTime);
             Start();
         }
-    }
-
-    private string[] CreateOptions()
-    {
-        return new []{ "Edit Task", "Delete Task", "Back to all Tasks" };
     }
 
     private void DeleteTask(Task? task)
@@ -70,7 +56,7 @@ public class ConsoleTaskView : ConsoleView, ITaskView
         if (task == null)
         {
             Console.WriteLine("Error! No task selected!");
-            Thread.Sleep(ERROR_MESSAGE_WAIT_TIME);
+            Thread.Sleep(ConsoleViewUtils.ErrorMessageWaitTime);
         }
         try
         {
@@ -79,7 +65,7 @@ public class ConsoleTaskView : ConsoleView, ITaskView
         catch (InvalidOperationException e)
         {
             Console.WriteLine($"Error! Could not delete task: {e.Message}");
-            Thread.Sleep(ERROR_MESSAGE_WAIT_TIME);
+            Thread.Sleep(ConsoleViewUtils.ErrorMessageWaitTime);
         }
     }
 }

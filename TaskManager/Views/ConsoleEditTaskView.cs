@@ -2,48 +2,54 @@ using System.Data;
 
 namespace TaskManager.Views;
 
-public class ConsoleEditTaskView : ConsoleView, IEditTaskView
+public class ConsoleEditTaskView : EditTaskView
 {
     // private readonly IView _callerView;
-    private readonly MainView _mainView;
-    private readonly string[] _options;
-    private Task? _selectedTask;
-    private Task? _updatedTask;
+    // private readonly MainView _mainView;
+    // private readonly string[] _options;
+    // private Task? _selectedTask;
+    // private Task? _updatedTask;
 
-    public ConsoleEditTaskView(MainView mainView, Task? selectedTask = null)
+    // public ConsoleEditTaskView(MainView mainView, Task? selectedTask = null)
+    // {
+    //     // _callerView = callerView;
+    //     _mainView = mainView;
+    //     _selectedTask = selectedTask;
+    //     if (_selectedTask != null)
+    //     {
+    //         _updatedTask = new Task(_selectedTask.Title);
+    //         _updatedTask.CopyTaskValues(_selectedTask);
+    //     }
+    //     else
+    //     {
+    //         _updatedTask = null;
+    //     }
+    //
+    //     _options = CreateOptions();
+    // }
+
+    public ConsoleEditTaskView(MainView mainView, Task? selectedTask = null) : base(mainView, selectedTask)
     {
-        // _callerView = callerView;
-        _mainView = mainView;
-        _selectedTask = selectedTask;
-        if (_selectedTask != null)
-        {
-            _updatedTask = new Task(_selectedTask.Title);
-            _updatedTask.CopyTaskValues(_selectedTask);
-        }
-        else
-        {
-            _updatedTask = null;
-        }
-
-        _options = CreateOptions();
     }
 
     public override void Start()
     {
-        if (_updatedTask == null || _selectedTask == null)
+        if (UpdatedTask == null || SelectedTask == null)
         {
             throw new InvalidOperationException("No task selected!");
         }
-        ConsoleMenu editTaskMenu = new ConsoleMenu(_updatedTask.ToString(), _options);
+
+        string[] options = CreateOptions();
+        ConsoleMenu editTaskMenu = new ConsoleMenu(UpdatedTask.ToString(), options);
         int selectedIndex = editTaskMenu.Run();
         ApplyAction(selectedIndex);
     }
 
-    public void SetSelectedTask(Task task)
-    {
-        _selectedTask = task;
-        SetUpdatedTask(_selectedTask);
-    }
+    // public void SetSelectedTask(Task task)
+    // {
+    //     _selectedTask = task;
+    //     SetUpdatedTask(_selectedTask);
+    // }
 
     private void ApplyAction(int selectedIndex)
     {
@@ -77,16 +83,16 @@ public class ConsoleEditTaskView : ConsoleView, IEditTaskView
                 SaveChangesToTask();
                 break;
             case 9:
-                _mainView.ShowTaskView(_selectedTask!);
+                MainView.ShowTaskView(SelectedTask!);
                 break;
         }
     }
 
-    private void SetUpdatedTask(Task task)
-    {
-        _updatedTask ??= new Task(task.Title);
-        _updatedTask.CopyTaskValues(task);
-    }
+    // private void SetUpdatedTask(Task task)
+    // {
+    //     _updatedTask ??= new Task(task.Title);
+    //     _updatedTask.CopyTaskValues(task);
+    // }
 
     private string[] CreateOptions()
     {
@@ -96,8 +102,8 @@ public class ConsoleEditTaskView : ConsoleView, IEditTaskView
     
     private void SaveChangesToTask()
     {
-        TestController.Instance.UpdateTask(_selectedTask!, _updatedTask!);
-        _mainView.ShowTasksView();
+        TestController.Instance.UpdateTask(SelectedTask!, UpdatedTask!);
+        MainView.ShowTasksView();
     }
     
     private void EditTitleOption()
@@ -105,17 +111,17 @@ public class ConsoleEditTaskView : ConsoleView, IEditTaskView
         string newTitle;
         try
         {
-            newTitle = GetTitleFromUser();
+            newTitle = ConsoleViewUtils.GetTitleFromUser();
         }
         catch (InvalidExpressionException e)
         {
             Console.WriteLine($"Error! {e.Message}");
-            Thread.Sleep(ERROR_MESSAGE_WAIT_TIME);
+            Thread.Sleep(ConsoleViewUtils.ErrorMessageWaitTime);
             Start();
             return;
         }
 
-        _updatedTask!.Title = newTitle;
+        UpdatedTask!.Title = newTitle;
         Start();
     }
     
@@ -124,29 +130,29 @@ public class ConsoleEditTaskView : ConsoleView, IEditTaskView
         Task.TaskPriority newPriority;
         try
         {
-            newPriority = GetPriorityFromUser();
+            newPriority = ConsoleViewUtils.GetPriorityFromUser();
         }
         catch (InvalidExpressionException e)
         {
             Console.WriteLine($"Error! {e.Message}");
-            Thread.Sleep(ERROR_MESSAGE_WAIT_TIME);
+            Thread.Sleep(ConsoleViewUtils.ErrorMessageWaitTime);
             Start();
             return;
         }
 
-        _updatedTask!.Priority = newPriority;
+        UpdatedTask!.Priority = newPriority;
         Start();
     }
     
     private void ChangeIsDone()
     {
-        if (_selectedTask!.IsDone)
+        if (SelectedTask!.IsDone)
         {
-            _updatedTask!.IsDone = false;
+            UpdatedTask!.IsDone = false;
         }
         else
         {
-            _updatedTask!.IsDone = true;
+            UpdatedTask!.IsDone = true;
         }
         Start();
     }
@@ -156,17 +162,17 @@ public class ConsoleEditTaskView : ConsoleView, IEditTaskView
         string? newDescription = null;
         try
         {
-            newDescription = GetDescriptionFromUser();
+            newDescription = ConsoleViewUtils.GetDescriptionFromUser();
         }
         catch (InvalidExpressionException e)
         {
             Console.WriteLine($"Error! {e.Message}");
-            Thread.Sleep(ERROR_MESSAGE_WAIT_TIME);
+            Thread.Sleep(ConsoleViewUtils.ErrorMessageWaitTime);
             Start();
             return;
         }
 
-        _updatedTask!.Description = newDescription;
+        UpdatedTask!.Description = newDescription;
         Start();
     }
     
@@ -175,17 +181,17 @@ public class ConsoleEditTaskView : ConsoleView, IEditTaskView
         DateTime? newDueTime = null;
         try
         {
-            newDueTime = GetDueDateFromUser();
+            newDueTime = ConsoleViewUtils.GetDueDateFromUser();
         }
         catch (InvalidExpressionException e)
         {
             Console.WriteLine($"Error! {e.Message}");
-            Thread.Sleep(ERROR_MESSAGE_WAIT_TIME);
+            Thread.Sleep(ConsoleViewUtils.ErrorMessageWaitTime);
             Start();
             return;
         }
 
-        _updatedTask!.DueTime = newDueTime;
+        UpdatedTask!.DueTime = newDueTime;
         Start();
     }
     
@@ -196,7 +202,7 @@ public class ConsoleEditTaskView : ConsoleView, IEditTaskView
         if (addOrRemove == null)
         {
             Console.WriteLine("Invalid option!");
-            Thread.Sleep(ERROR_MESSAGE_WAIT_TIME);
+            Thread.Sleep(ConsoleViewUtils.ErrorMessageWaitTime);
             Start();
             return;
         }
@@ -208,12 +214,12 @@ public class ConsoleEditTaskView : ConsoleView, IEditTaskView
             if (label == null || label.Equals(""))
             {
                 Console.WriteLine("Invalid label!");
-                Thread.Sleep(ERROR_MESSAGE_WAIT_TIME);
+                Thread.Sleep(ConsoleViewUtils.ErrorMessageWaitTime);
                 Start();
             }
             else
             {
-                _updatedTask!.AddLabel(label);
+                UpdatedTask!.AddLabel(label);
                 Start();
             }
         }
@@ -221,22 +227,22 @@ public class ConsoleEditTaskView : ConsoleView, IEditTaskView
         {
             Console.WriteLine("Enter a label to remove:");
             string? label = Console.ReadLine();
-            if (label == null || !_updatedTask!.IsContainLabel(label))
+            if (label == null || !UpdatedTask!.IsContainLabel(label))
             {
                 Console.WriteLine("Invalid label!");
-                Thread.Sleep(ERROR_MESSAGE_WAIT_TIME);
+                Thread.Sleep(ConsoleViewUtils.ErrorMessageWaitTime);
                 Start();
             }
             else
             {
-                _updatedTask!.RemoveLabel(label);
+                UpdatedTask!.RemoveLabel(label);
                 Start();
             }
         }
         else
         {
             Console.WriteLine("Invalid option!");
-            Thread.Sleep(ERROR_MESSAGE_WAIT_TIME);
+            Thread.Sleep(ConsoleViewUtils.ErrorMessageWaitTime);
             Start();
         }
     }
@@ -249,13 +255,13 @@ public class ConsoleEditTaskView : ConsoleView, IEditTaskView
         {
             try
             {
-                _updatedTask!.AddSubTask(CreateTask());
+                UpdatedTask!.AddSubTask(ConsoleViewUtils.CreateTask());
                 Start();
             }
             catch (InvalidExpressionException e)
             {
                 Console.WriteLine($"Error! {e.Message}");
-                Thread.Sleep(ERROR_MESSAGE_WAIT_TIME);
+                Thread.Sleep(ConsoleViewUtils.ErrorMessageWaitTime);
                 Start();
             }
         }
@@ -269,7 +275,7 @@ public class ConsoleEditTaskView : ConsoleView, IEditTaskView
             }
 
             Task taskToRemove;
-            foreach (Task subTask in _updatedTask!.SubTasks)
+            foreach (Task subTask in UpdatedTask!.SubTasks)
             {
                 if (subTaskTitle != subTask.Title)
                 {
@@ -277,13 +283,13 @@ public class ConsoleEditTaskView : ConsoleView, IEditTaskView
                 }
 
                 taskToRemove = subTask;
-                _updatedTask!.RemoveSubTask(taskToRemove);
+                UpdatedTask!.RemoveSubTask(taskToRemove);
                 Start();
                 return;
             }
 
             Console.WriteLine("Sub Task with same title not found!");
-            Thread.Sleep(ERROR_MESSAGE_WAIT_TIME);
+            Thread.Sleep(ConsoleViewUtils.ErrorMessageWaitTime);
             Start();
         }
         else

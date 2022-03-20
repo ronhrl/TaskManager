@@ -2,33 +2,36 @@ using System.Data;
 
 namespace TaskManager.Views;
 
-public class ConsoleTasksView : ConsoleView, ITasksView
+public class ConsoleTasksView : TasksView
 {
     // private static readonly int SHOW_TASK_OPTION = 0;
 
     private static readonly string IS_DONE_SYMBOL = "*";
     private static readonly string PROMPT = "Take a look at your tasks!";
     
-    private ITaskCollection _taskCollection;
-    private readonly MainView _mainView;
+    // private ITaskCollection _taskCollection;
+    // private readonly MainView _mainView;
     // private readonly IView _callerView;
     // private ITaskView _taskView;
-    private string[] _options;
+    // private string[] _options;
 
-    public ConsoleTasksView(MainView mainView)
+    public ConsoleTasksView(MainView mainView) : base(mainView)
     {
-        _mainView = mainView;
-        _taskCollection = TestController.Instance.GetTasks();
-        // _callerView = callerView;
-        // _taskView = taskView;
-        _options = CreateOptions();
     }
+    // public ConsoleTasksView(MainView mainView)
+    // {
+    //     _mainView = mainView;
+    //     _taskCollection = TestController.Instance.GetTasks();
+    //     // _callerView = callerView;
+    //     // _taskView = taskView;
+    //     _options = CreateOptions();
+    // }
 
     public override void Start()
     {
-        _taskCollection = TestController.Instance.GetTasks();
-        _options = CreateOptions();
-        ConsoleMenu tasksMenu = new ConsoleMenu(PROMPT, _options);
+        TaskCollection = TestController.Instance.GetTasks();
+        string[] options = CreateOptions();
+        ConsoleMenu tasksMenu = new ConsoleMenu(PROMPT, options);
         int selectedIndex = tasksMenu.Run();
         ApplyAction(selectedIndex, tasksMenu);
     }
@@ -42,7 +45,7 @@ public class ConsoleTasksView : ConsoleView, ITasksView
         
         if (selectedIndex == backOption)
         {
-            _mainView.ShowInitialView();
+            MainView.ShowInitialView();
         }
         else if (selectedIndex == addTaskOption)
         {
@@ -64,20 +67,20 @@ public class ConsoleTasksView : ConsoleView, ITasksView
 
     private void SearchOption()
     {
-        _mainView.ShowSearchView();
+        MainView.ShowSearchView();
     }
 
     private void ShowTaskOption(int selectedIndex)
     {
-        Task selectedTask = _taskCollection.GetTaskAtIndex(selectedIndex);
+        Task selectedTask = TaskCollection.GetTaskAtIndex(selectedIndex);
         try
         {
-            _mainView.ShowTaskView(selectedTask);
+            MainView.ShowTaskView(selectedTask);
         }
         catch (Exception e)
         {
             Console.WriteLine($"Error! {e.Message}");
-            Thread.Sleep(ERROR_MESSAGE_WAIT_TIME);
+            Thread.Sleep(ConsoleViewUtils.ErrorMessageWaitTime);
             Start();
         }
     }
@@ -86,22 +89,22 @@ public class ConsoleTasksView : ConsoleView, ITasksView
     {
         try
         {
-            TestController.Instance.AddTask(CreateTask());
+            TestController.Instance.AddTask(ConsoleViewUtils.CreateTask());
             Start();
         }
         catch (InvalidExpressionException e)
         {
             Console.WriteLine($"Error! {e.Message}");
-            Thread.Sleep(ERROR_MESSAGE_WAIT_TIME);
+            Thread.Sleep(ConsoleViewUtils.ErrorMessageWaitTime);
             Start();
         }
     }
 
     private string[] CreateOptions()
     {
-        string[] options = new string[_taskCollection.Count + 4];
+        string[] options = new string[TaskCollection.Count + 4];
         int count = 0;
-        foreach (Task task in _taskCollection)
+        foreach (Task task in TaskCollection)
         {
             if (task.IsDone)
             {

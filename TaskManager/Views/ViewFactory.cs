@@ -4,15 +4,15 @@ public abstract class ViewFactory
 {
     public abstract MainView CreateMainView();
 
-    public abstract ITasksView CreateTasksView(MainView mainView);
+    public abstract TasksView CreateTasksView(MainView mainView);
 
-    public abstract ITaskView CreateTaskView(MainView mainView);
+    public abstract TaskView CreateTaskView(MainView mainView);
 
-    public abstract IEditTaskView CreateEditTaskView(MainView mainView);
+    public abstract EditTaskView CreateEditTaskView(MainView mainView);
 
-    public abstract IInitialView CreateInitialView(MainView mainView);
+    public abstract InitialView CreateInitialView(MainView mainView);
 
-    public abstract ISearchView CreateSearchView(MainView mainView);
+    public abstract SearchView CreateSearchView(MainView mainView);
 
-    public abstract ISearchResultsView CreateSearchResultsView(MainView mainView);
+    public abstract SearchResultsView CreateSearchResultsView(MainView mainView);
 }

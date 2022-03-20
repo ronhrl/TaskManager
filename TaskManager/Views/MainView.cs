@@ -3,12 +3,12 @@ namespace TaskManager.Views;
 public abstract class MainView : IView
 {
     // private readonly ViewFactory _viewFactory;
-    private readonly IInitialView _initialView;
-    private readonly ITasksView _tasksView;
-    private readonly ITaskView _taskView;
-    private readonly IEditTaskView _editTaskView;
-    private readonly ISearchView _searchView;
-    private readonly ISearchResultsView _searchResultsView;
+    private readonly InitialView _initialView;
+    private readonly TasksView _tasksView;
+    private readonly TaskView _taskView;
+    private readonly EditTaskView _editTaskView;
+    private readonly SearchView _searchView;
+    private readonly SearchResultsView _searchResultsView;
 
     protected MainView(ViewFactory viewFactory)
     {

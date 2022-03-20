@@ -2,53 +2,57 @@ using System.Data;
 
 namespace TaskManager.Views;
 
-public class ConsoleSearchView : ConsoleView, ISearchView
+public class ConsoleSearchView : SearchView
 {
     private static readonly string PROMPT = "Please choose a property to search by:";
-    private readonly MainView _mainView;
-    private readonly string[] _searchersList;
-    private readonly string[] _options;
+    // private readonly MainView _mainView;
+    // private readonly string[] _searchersList;
+    // private readonly string[] _options;
 
-    public ConsoleSearchView(MainView mainView)
+    // public ConsoleSearchView(MainView mainView)
+    // {
+    //     _mainView = mainView;
+    //     _searchersList = TestController.Instance.GetSearchers();
+    //     // _options = CreateOptions();
+    // }
+    public ConsoleSearchView(MainView mainView) : base(mainView)
     {
-        _mainView = mainView;
-        _searchersList = TestController.Instance.GetSearchers();
-        _options = CreateOptions();
     }
 
     public override void Start()
     {
-        ConsoleMenu searchMenu = new ConsoleMenu(PROMPT, _options);
+        string[] options = CreateOptions();
+        ConsoleMenu searchMenu = new ConsoleMenu(PROMPT, options);
         int selectedIndex = searchMenu.Run();
-        ApplyAction(selectedIndex);
+        ApplyAction(selectedIndex, options);
     }
 
-    private void ApplyAction(int selectedIndex)
+    private void ApplyAction(int selectedIndex, string[] options)
     {
-        if (selectedIndex == _options.Length - 2)
+        if (selectedIndex == options.Length - 2)
         {
             Start();
         }
-        else if (selectedIndex == _options.Length - 1)
+        else if (selectedIndex == options.Length - 1)
         {
-            _mainView.ShowTasksView();
+            MainView.ShowTasksView();
         }
         else
         {
             Console.WriteLine("Please enter a to search by:");
             string param = Console.ReadLine() ?? throw new InvalidExpressionException("Invalid value!");
-            List<Task> results = TestController.Instance.Search(_searchersList[selectedIndex], param);
-            _mainView.ShowSearchResultsView(results);
+            List<Task> results = TestController.Instance.Search(SearchersList[selectedIndex], param);
+            MainView.ShowSearchResultsView(results);
         }
     }
 
     private string[] CreateOptions()
     {
-        string[] options = new string[_searchersList.Length + 2];
+        string[] options = new string[SearchersList.Length + 2];
         int count = 0;
         for (; count < options.Length - 2; count++)
         {
-            options[count] = _searchersList[count];
+            options[count] = SearchersList[count];
         }
 
         options[count++] = "";

@@ -1,20 +1,25 @@
 namespace TaskManager.Views;
 
-public class ConsoleInitialView : ConsoleView, IInitialView
+public class ConsoleInitialView : InitialView
 {
-    private static readonly string _prompt = "Welcome to Task Manager!";
-    private readonly string[] _options;
-    private readonly MainView _mainView;
+    private static readonly string Prompt = "Welcome to Task Manager!";
+    private static readonly string[] Options = new[] { "Show My Tasks", "Exit" };
+    // private readonly string[] _options;
+    // private readonly MainView _mainView;
 
-    public ConsoleInitialView(MainView mainView)
+    // public ConsoleInitialView(MainView mainView)
+    // {
+    //     _mainView = mainView;
+    //     _options = CreateOptions();
+    // }
+
+    public ConsoleInitialView(MainView mainView) : base(mainView)
     {
-        _mainView = mainView;
-        _options = CreateOptions();
     }
 
     public override void Start()
     {
-        ConsoleMenu mainMenu = new ConsoleMenu(_prompt, _options);
+        ConsoleMenu mainMenu = new ConsoleMenu(Prompt, Options);
         int selectedIndex = mainMenu.Run();
         ApplyAction(selectedIndex);
     }
@@ -24,7 +29,7 @@ public class ConsoleInitialView : ConsoleView, IInitialView
         switch (selectedIndex)
         {
             case 0:
-                _mainView.ShowTasksView();
+                MainView.ShowTasksView();
                 break;
             case 1:
                 ExitApp();
@@ -48,10 +53,10 @@ public class ConsoleInitialView : ConsoleView, IInitialView
     //     }
     // }
 
-    private string[] CreateOptions()
-    {
-        return new[] { "Show My Tasks", "Exit" };
-    }
+    // private string[] CreateOptions()
+    // {
+    //     return new[] { "Show My Tasks", "Exit" };
+    // }
     
     private void ExitApp()
     {
