@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace TaskManager;
+namespace TaskManager.TaskCollections;
 
 public class ListTaskCollection : ITaskCollection
 {

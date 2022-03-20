@@ -1,4 +1,4 @@
-namespace TaskManager;
+namespace TaskManager.Searchers;
 
 public class SearcherFactory
 {

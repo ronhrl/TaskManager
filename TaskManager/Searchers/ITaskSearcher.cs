@@ -1,6 +1,6 @@
-namespace TaskManager;
+namespace TaskManager.Searchers;
 
 public interface ITaskSearcher
 {
-    List<Task> Search(ITaskCollection taskCollection, object param);
+    List<Task> Search(TaskCollections.ITaskCollection taskCollection, object param);
 }

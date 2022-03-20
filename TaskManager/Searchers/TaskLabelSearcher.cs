@@ -1,8 +1,8 @@
-namespace TaskManager;
+namespace TaskManager.Searchers;
 
 public class TaskLabelSearcher : ITaskSearcher
 {
-    public List<Task> Search(ITaskCollection taskCollection, object label)
+    public List<Task> Search(TaskCollections.ITaskCollection taskCollection, object label)
     {
         string labelToSearch = (string)label;
         List<Task> results = new List<Task>();

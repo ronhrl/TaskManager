@@ -1,8 +1,8 @@
-namespace TaskManager;
+namespace TaskManager.Searchers;
 
 public class TaskTitleSearcher : ITaskSearcher
 {
-    public List<Task> Search(ITaskCollection taskCollection, object title)
+    public List<Task> Search(TaskCollections.ITaskCollection taskCollection, object title)
     {
         string titleToSearch = (string) title;
         List<Task> results = new List<Task>();

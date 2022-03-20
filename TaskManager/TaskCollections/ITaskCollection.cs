@@ -1,4 +1,4 @@
-namespace TaskManager;
+namespace TaskManager.TaskCollections;
 
 public interface ITaskCollection : ICollection<Task>
 {

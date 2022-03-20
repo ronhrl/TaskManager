@@ -2,7 +2,7 @@ namespace TaskManager.Views;
 
 public abstract class TasksView : IView
 {
-    protected ITaskCollection TaskCollection;
+    protected TaskCollections.ITaskCollection TaskCollection;
     protected readonly MainView MainView;
 
     protected TasksView(MainView mainView)
