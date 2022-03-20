@@ -2,13 +2,7 @@ namespace TaskManager.Views;
 
 public class ConsoleTaskView : ConsoleView, ITaskView
 {
-    // private static readonly int EDIT_TASK_OPTION = 0;
-    // private static readonly int DELETE_TASK_OPTION = 1;
-    // private static readonly int BACK_OPTION = 2;
-    
     private Task? _selectedTask;
-    // private readonly IView _callerView;
-    // private IEditTaskView _editTaskView;
     private readonly MainView _mainView;
     private readonly string[] _options;
 
@@ -16,8 +10,6 @@ public class ConsoleTaskView : ConsoleView, ITaskView
     {
         _mainView = mainView;
         _selectedTask = selectedTask;
-        // _callerView = callerView;
-        // _editTaskView = editTaskView;
         _options = CreateOptions();
     }
 

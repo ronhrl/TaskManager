@@ -2,10 +2,10 @@ namespace TaskManager.Views;
 
 public class ConsoleViewFactory : ViewFactory
 {
-    // public override MainView CreateMainView()
-    // {
-    //     return new ConsoleMainView();
-    // }
+    public override MainView CreateMainView()
+    {
+        return new ConsoleMainView(this);
+    }
 
     public override ITasksView CreateTasksView(MainView mainView)
     {

@@ -2,7 +2,7 @@ namespace TaskManager.Views;
 
 public abstract class ViewFactory
 {
-    // public abstract MainView CreateMainView();
+    public abstract MainView CreateMainView();
 
     public abstract ITasksView CreateTasksView(MainView mainView);
 
