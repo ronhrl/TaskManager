@@ -40,6 +40,36 @@ public class TaskManagerFilesStorageM : ITaskManagerFilesStorage
             Console.WriteLine("FilesStorage Database file created");
             this.mySQLiteConnection = new SQLiteConnection("Data Source=FilesStorage.sqlite3");
         }
+        string createTaskTableQuery = @"CREATE TABLE IF NOT EXISTS [Tasks] (
+                                    [Title] Text NOT NULL PRIMARY KEY, 
+                                    [Priority] INTEGER NOT NULL, 
+                                    [Description] Text NULL,
+                                    [CreationTime] Text NULL,
+                                    [IsDone] Text NOT NULL,
+                                    [DueTime] Text NULL
+                                    )";
+        string createSubTaskTableQuery = @"CREATE TABLE IF NOT EXISTS [Sub_Tasks] (
+                                        [Title] Text NOT NULL PRIMARY KEY, 
+                                        [PrimaryTaskTitle] Text NOT NULL,
+                                        [Priority] INTEGER NOT NULL,
+                                        [Description] Text NULL,
+                                        [CreationTime] Text NULL,
+                                        [IsDone] Text NOT NULL,
+                                        [DueTime] Text NULL
+                                        )";
+        string createLabelsTableQuery = @"CREATE TABLE IF NOT EXISTS [Labels] (
+                                        [Title] Text NOT NULL PRIMARY KEY,
+                                        [LABEL] Text NOT NULL   
+                                        )";
+
+        using (SQLiteConnection c = new SQLiteConnection(mySQLiteConnection))
+        {
+            c.Open();
+            using (SQLiteCommand mySqLiteCommand = new SQLiteCommand(createTaskTableQuery, c))
+            {
+                mySqLiteCommand.ExecuteNonQuery();
+            }
+        }
     }
 
     public void InsertNewTask(Task task)

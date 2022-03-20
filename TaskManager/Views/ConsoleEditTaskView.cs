@@ -4,30 +4,6 @@ namespace TaskManager.Views;
 
 public class ConsoleEditTaskView : EditTaskView
 {
-    // private readonly IView _callerView;
-    // private readonly MainView _mainView;
-    // private readonly string[] _options;
-    // private Task? _selectedTask;
-    // private Task? _updatedTask;
-
-    // public ConsoleEditTaskView(MainView mainView, Task? selectedTask = null)
-    // {
-    //     // _callerView = callerView;
-    //     _mainView = mainView;
-    //     _selectedTask = selectedTask;
-    //     if (_selectedTask != null)
-    //     {
-    //         _updatedTask = new Task(_selectedTask.Title);
-    //         _updatedTask.CopyTaskValues(_selectedTask);
-    //     }
-    //     else
-    //     {
-    //         _updatedTask = null;
-    //     }
-    //
-    //     _options = CreateOptions();
-    // }
-
     public ConsoleEditTaskView(MainView mainView, Task? selectedTask = null) : base(mainView, selectedTask)
     {
     }
@@ -44,12 +20,6 @@ public class ConsoleEditTaskView : EditTaskView
         int selectedIndex = editTaskMenu.Run();
         ApplyAction(selectedIndex);
     }
-
-    // public void SetSelectedTask(Task task)
-    // {
-    //     _selectedTask = task;
-    //     SetUpdatedTask(_selectedTask);
-    // }
 
     private void ApplyAction(int selectedIndex)
     {

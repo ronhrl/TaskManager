@@ -4,29 +4,12 @@ namespace TaskManager.Views;
 
 public class ConsoleTasksView : TasksView
 {
-    // private static readonly int SHOW_TASK_OPTION = 0;
-
     private static readonly string IS_DONE_SYMBOL = "*";
     private static readonly string PROMPT = "Take a look at your tasks!";
-    
-    // private ITaskCollection _taskCollection;
-    // private readonly MainView _mainView;
-    // private readonly IView _callerView;
-    // private ITaskView _taskView;
-    // private string[] _options;
 
     public ConsoleTasksView(MainView mainView) : base(mainView)
     {
     }
-    // public ConsoleTasksView(MainView mainView)
-    // {
-    //     _mainView = mainView;
-    //     _taskCollection = TestController.Instance.GetTasks();
-    //     // _callerView = callerView;
-    //     // _taskView = taskView;
-    //     _options = CreateOptions();
-    // }
-
     public override void Start()
     {
         TaskCollection = TestController.Instance.GetTasks();

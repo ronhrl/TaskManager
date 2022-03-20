@@ -10,7 +10,7 @@ public class TaskTitleSearcher : ITaskSearcher
         ITaskCollection results = new ListTaskCollection();
         foreach (Task task in taskCollection)
         {
-            if (!task.Title.Equals(titleToSearch))
+            if (!task.Title.Contains(titleToSearch))
             {
                 continue;
             }

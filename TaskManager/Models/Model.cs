@@ -39,27 +39,32 @@ public class Model
         //return new List<Task>;
     }
 
-    public ITaskCollection SearchTasks(ITaskCollection collection, object param, object p)
-    {
-        //ITaskSorter s;
-        if (param.ToString().Equals("label"))
-        {
-            TaskLabelSearcher s = new TaskLabelSearcher();
-            return s.Search(collection, p);
-        }
+    // public ITaskCollection SearchTasks(ITaskCollection collection, object param, object p)
+    // {
+    //     //ITaskSorter s;
+    //     if (param.ToString().Equals("label"))
+    //     {
+    //         TaskLabelSearcher s = new TaskLabelSearcher();
+    //         return s.Search(collection, p);
+    //     }
+    //
+    //     else if (param.ToString().Equals("title"))
+    //     {
+    //         TaskTitleSearcher s = new TaskTitleSearcher();
+    //         return s.Search(collection, p);
+    //     }
+    //     throw new NotImplementedException();
+    // }
 
-        else if (param.ToString().Equals("title"))
-        {
-            TaskTitleSearcher s = new TaskTitleSearcher();
-            return s.Search(collection, p);
-        }
-        throw new NotImplementedException();
+    public ITaskCollection SearchTasks(ITaskSearcher searcher, object param)
+    {
+        return searcher.Search(_taskCollection, param);
     }
 
     public void InsertTaskM(Task t)
     {
-        mydatabase.InsertNewTask(t);
         _taskCollection.Add(t);
+        mydatabase.InsertNewTask(t);
     }
 
     public void DeleteTaskFromDbM(Task t)
