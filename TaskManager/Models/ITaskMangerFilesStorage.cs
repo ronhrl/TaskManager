@@ -16,4 +16,8 @@ public interface ITaskManagerFilesStorage
     public void DeleteSubTaskFromDb(Task subTask);
 
     public void UpdateSubTaskInDb(Task task);
+
+    public void AddLabel(Task t, string label);
+
+    public void DeleteLabelFromDb(string label);
 }

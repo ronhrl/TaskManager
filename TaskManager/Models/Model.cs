@@ -56,8 +56,17 @@ public class Model
 
     public void InsertTaskM(Task t)
     {
-        mydatabase.InsertNewTask(t);
-        _taskCollection.Add(t);
+        try
+        {
+            _taskCollection.Add(t);
+            mydatabase.InsertNewTask(t);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+        
     }
 
     public void DeleteTaskFromDbM(Task t)
@@ -88,17 +97,28 @@ public class Model
         mydatabase.UpdateSubTaskInDb(t);
     }
 
+    public List<Task> GetTasksFromDbM()
+    {
+        return mydatabase.GetTasksFromDb();
+    }
+
     public static void Main(string[] args)
     {
-        Task t = new Task("ttttttt", Task.TaskPriority.High, "fffffff", null, null, null);
+        Task t = new Task("ppppppppppppppp", Task.TaskPriority.High, "fffffff", null, null, null);
         Task t2 = new Task("aaaa", Task.TaskPriority.High, "bbb", null, null, null);
         Task t3 = new Task("yit", Task.TaskPriority.High, "cccc", null, null, null);
         Task t4 = new Task("ron", Task.TaskPriority.Medium, "ddddd", null, null, null);
         //TaskManagerFilesStorageM tmfs = new TaskManagerFilesStorageM();
         Model m = new Model();
         //TaskManagerFilesStorageM tm = GetMyDataBase();
-        //m.InsertTaskM(t);
-        m.InsertSubTaskM(t, t3);
+        m.InsertTaskM(t);
+        // m.InsertTaskM(t2);
+        // m.InsertSubTaskM(t, t3);
+        // List<Task> l = m.GetTasksFromDbM();
+        // foreach (Task task in l)
+        // {
+        //     Console.WriteLine(task);
+        // }
         //m.DeleteTaskFromDbM(t);
     }
 }
