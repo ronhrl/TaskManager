@@ -38,6 +38,7 @@ public class TaskManagerFilesStorageM : ITaskManagerFilesStorage
         
             SQLiteConnection.CreateFile("FilesStorage.sqlite3");
             Console.WriteLine("FilesStorage Database file created");
+            this.mySQLiteConnection = new SQLiteConnection("Data Source=FilesStorage.sqlite3");
         }
     }
 

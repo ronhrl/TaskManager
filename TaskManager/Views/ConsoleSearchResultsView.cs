@@ -1,3 +1,5 @@
+using TaskManager.TaskCollections;
+
 namespace TaskManager.Views;
 
 public class ConsoleSearchResultsView : SearchResultsView
@@ -12,7 +14,7 @@ public class ConsoleSearchResultsView : SearchResultsView
     //     _results = results;
     // }
 
-    public ConsoleSearchResultsView(MainView mainView, List<Task>? results = null) : base(mainView, results)
+    public ConsoleSearchResultsView(MainView mainView, ITaskCollection? results = null) : base(mainView, results)
     {
     }
 
@@ -43,7 +45,7 @@ public class ConsoleSearchResultsView : SearchResultsView
         }
         else
         {
-            MainView.ShowTaskView(Results![selectedIndex]);
+            MainView.ShowTaskView(Results!.GetTaskAtIndex(selectedIndex));
         }
     }
 
@@ -64,7 +66,7 @@ public class ConsoleSearchResultsView : SearchResultsView
         int count = 0;
         for (; count < options.Length - 2; count++)
         {
-            options[count] = Results[count].Title;
+            options[count] = Results.GetTaskAtIndex(count).Title;
         }
 
         options[count++] = "";

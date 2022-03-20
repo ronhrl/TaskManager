@@ -1,3 +1,5 @@
+using TaskManager.TaskCollections;
+
 namespace TaskManager.Views;
 
 public abstract class MainView : IView
@@ -76,7 +78,7 @@ public abstract class MainView : IView
         }
     }
 
-    public void ShowSearchResultsView(List<Task> results)
+    public void ShowSearchResultsView(ITaskCollection results)
     {
         try
         {

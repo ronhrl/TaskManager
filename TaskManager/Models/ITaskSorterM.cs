@@ -1,6 +1,7 @@
 using TaskManager.Models;
+using TaskManager.TaskCollections;
 
-namespace TaskManager;
+namespace TaskManager.Models;
 
 public interface ITaskSorter
 {

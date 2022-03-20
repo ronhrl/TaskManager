@@ -1,4 +1,6 @@
 ﻿using System.IO.Compression;
+using TaskManager.TaskCollections;
+using TaskManager.Searchers;
 
 namespace TaskManager.Models;
 
@@ -37,7 +39,7 @@ public class Model
         //return new List<Task>;
     }
 
-    public List<Task> SearchTasks(ITaskCollection collection, object param, object p)
+    public ITaskCollection SearchTasks(ITaskCollection collection, object param, object p)
     {
         //ITaskSorter s;
         if (param.ToString().Equals("label"))

@@ -1,4 +1,5 @@
 using System.Data;
+using TaskManager.TaskCollections;
 
 namespace TaskManager.Views;
 
@@ -41,7 +42,7 @@ public class ConsoleSearchView : SearchView
         {
             Console.WriteLine("Please enter a to search by:");
             string param = Console.ReadLine() ?? throw new InvalidExpressionException("Invalid value!");
-            List<Task> results = TestController.Instance.Search(SearchersList[selectedIndex], param);
+            ITaskCollection results = TestController.Instance.Search(SearchersList[selectedIndex], param);
             MainView.ShowSearchResultsView(results);
         }
     }
