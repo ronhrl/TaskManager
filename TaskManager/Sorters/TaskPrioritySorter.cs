@@ -6,10 +6,6 @@ namespace TaskManager.Sorters;
 
 public class TaskPrioritySorter : ITaskSorter
 {
-    public TaskPrioritySorter()
-    {
-        
-    }
 
     public ITaskCollection Sort(ITaskCollection taskCollection)
     {
