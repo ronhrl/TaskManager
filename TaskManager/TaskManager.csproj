@@ -16,6 +16,9 @@
     <ItemGroup>
       <Compile Remove="TaskManagerFileStorage.cs" />
       <Compile Remove="Models\ITaskManagerFilesStorage.cs" />
+      <Compile Include="..\..\..\..\..\..\Downloads\testProgram.cs">
+        <Link>testProgram.cs</Link>
+      </Compile>
     </ItemGroup>
 
 </Project>

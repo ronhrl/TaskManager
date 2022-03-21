@@ -4,17 +4,28 @@
     <projectFile>TaskManager/TaskManager.csproj</projectFile>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f30ceb9f-ad08-4abe-85cb-d9762e946318" name="Changes" comment="" />
+    <list default="true" id="4e5e9c77-bd90-44ef-b92d-710b43620e59" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.TaskManager/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.TaskManager/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskManager/Models/Model.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManager/Models/Model.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskManager/Models/SqliteStorage.cs" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManager/Models/SqliteStorage.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TaskManager/TaskManager.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/TaskManager/TaskManager.csproj" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="HighlightingSettingsPerFile">
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/4050ba48b7e252908212d892189d928884eb8c726d4f447f53c29d6ecd4411/Exception.CoreCLR.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="mock://C:/Users/yairs/RiderProjects/TaskManager/TaskManager/Views/SearchView.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/ronharel/OneDrive - Intel Corporation/Documents/CS/ThirdYear/TaskManager/TaskManager/TaskManagerController.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/ronharel/OneDrive - Intel Corporation/Documents/CS/ThirdYear/TaskManager/TaskManager/Models/ITaskMangerFilesStorage.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://diff.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/953a2b025402401baa2d70ad3e248c9a5f330/53/1716fa0c/SQLiteCommand.cs" root0="SKIP_HIGHLIGHTING" />
-    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/DecompilerCache/decompiler/953a2b025402401baa2d70ad3e248c9a5f330/82/2ed5f2af/SQLiteConnection.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/ronharel/OneDrive - Intel Corporation/Documents/CS/ThirdYear/TaskManager/TaskManager/Models/ITaskMangerFilesStorage.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/ronharel/OneDrive - Intel Corporation/Documents/CS/ThirdYear/TaskManager/TaskManager/Models/CreationTimeSorterM.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock://C:/Users/ronharel/OneDrive - Intel Corporation/Documents/CS/ThirdYear/TaskManager/TaskManager/Models/ITaskMangerFilesStorage.cs" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="1" id="Add" />
@@ -56,14 +67,7 @@
         <line-breakpoint enabled="true" type="DotNet Breakpoints">
           <url>file://$PROJECT_DIR$/TaskManager/Views/ConsoleEditTaskView.cs</url>
           <line>74</line>
-          <properties documentPath="C:\Users\yairs\RiderProjects\TaskManager\TaskManager\Views\ConsoleEditTaskView.cs" initialLine="74" containingFunctionPresentation="method 'SaveChangesToTask'">
-            <startOffsets>
-              <option value="1953" />
-            </startOffsets>
-            <endOffsets>
-              <option value="2024" />
-            </endOffsets>
-          </properties>
+          <properties documentPath="C:\Users\yairs\RiderProjects\TaskManager\TaskManager\Views\ConsoleEditTaskView.cs" initialLine="74" containingFunctionPresentation="method 'SaveChangesToTask'" />
           <option name="timeStamp" value="31" />
         </line-breakpoint>
       </breakpoints>
