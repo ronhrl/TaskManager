@@ -104,14 +104,24 @@ public class Model
 
     public static void Main(string[] args)
     {
-        Task t = new Task("yyyyyyy", Task.TaskPriority.High, "fffffff", DateTime.Today, null, null);
-        Task t2 = new Task("aaaa", Task.TaskPriority.High, "bbb", null, null, null);
-        Task t3 = new Task("yit", Task.TaskPriority.High, "cccc", null, null, null);
-        Task t4 = new Task("ron", Task.TaskPriority.Medium, "ddddd", null, null, null);
+        Task t = new Task("llllllll", Task.TaskPriority.High, "fffffff", DateTime.Today, null, null);
+        Task t2 = new Task("aaaa", Task.TaskPriority.High, "bbb", DateTime.Today, null, null);
+        Task t3 = new Task("yit", Task.TaskPriority.High, "cccc", DateTime.Today, null, null);
+        Task t4 = new Task("ron", Task.TaskPriority.Medium, "ddddd", DateTime.Today, null, null);
         //TaskManagerFilesStorageM tmfs = new TaskManagerFilesStorageM();
+        List<Task> list = new List<Task>();
+        list.Add(t);
+        list.Add(t2);
+        list.Add(t3);
+        list.Add(t4);
         Model m = new Model();
+        List<string> labels = new List<string>();
+        labels.Add("A");
+        labels.Add("B");
+        labels.Add("C");
+        Task t8 = new Task("wwwww", Task.TaskPriority.High, "fffffff", DateTime.Today, labels, list);
         //TaskManagerFilesStorageM tm = GetMyDataBase();
-        m.InsertTaskM(t);
+        m.InsertTaskM(t8);
         ITaskCollection ls = new ListTaskCollection();
         ls = m.GetTasksFromDbM();
 

@@ -20,4 +20,6 @@ public interface ITaskManagerFilesStorage
     public void AddLabel(Task t, string label);
 
     public void DeleteLabelFromDb(string label);
+    
+    //private List<Task> GetSubTasksFromDb(string taskTitle);
 }
