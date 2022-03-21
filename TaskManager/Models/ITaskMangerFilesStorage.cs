@@ -1,3 +1,4 @@
+using TaskManager.TaskCollections;
 namespace TaskManager.Models;
 
 public interface ITaskManagerFilesStorage
@@ -9,7 +10,7 @@ public interface ITaskManagerFilesStorage
 
     public void UpdateTaskInDb(Task t);
 
-    public List<Task> GetTasksFromDb();
+    public ITaskCollection GetTasksFromDb();
 
     public void InsertNewSubTask(Task t, Task subTask);
 

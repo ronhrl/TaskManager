@@ -4,6 +4,7 @@ using System.Data;
 using System.IO;
 using Microsoft.Data.Sqlite;
 using System.Data.SQLite;
+using TaskManager.TaskCollections;
 namespace TaskManager.Models;
 
 
@@ -30,45 +31,122 @@ public class TaskManagerFilesStorageM : ITaskManagerFilesStorage
     //
     //     return myDatabase;
     // }
+    // public TaskManagerFilesStorageM()
+    // {
+    //     this.mySQLiteConnection = new SQLiteConnection("Data Source=FilesStorage.sqlite3");
+    //     if (!File.Exists("./FilesStorage.sqlite3"))
+    //     {
+    //     
+    //         SQLiteConnection.CreateFile("FilesStorage.sqlite3");
+    //         Console.WriteLine("FilesStorage Database file created");
+    //         this.mySQLiteConnection = new SQLiteConnection("Data Source=FilesStorage.sqlite3");
+    //     }
+    //     string createTaskTableQuery = @"CREATE TABLE IF NOT EXISTS [Tasks] (
+    //                                 [Title] Text NOT NULL PRIMARY KEY, 
+    //                                 [Priority] INTEGER NOT NULL, 
+    //                                 [Description] Text NULL,
+    //                                 [CreationTime] Text NULL,
+    //                                 [IsDone] Text NOT NULL,
+    //                                 [DueTime] Text NULL
+    //                                 )";
+    //     string createSubTaskTableQuery = @"CREATE TABLE IF NOT EXISTS [Sub_Tasks] (
+    //                                     [Title] Text NOT NULL PRIMARY KEY, 
+    //                                     [PrimaryTaskTitle] Text NOT NULL,
+    //                                     [Priority] INTEGER NOT NULL,
+    //                                     [Description] Text NULL,
+    //                                     [CreationTime] Text NULL,
+    //                                     [IsDone] Text NOT NULL,
+    //                                     [DueTime] Text NULL
+    //                                     )";
+    //     string createLabelsTableQuery = @"CREATE TABLE IF NOT EXISTS [Labels] (
+    //                                     [Title] Text NOT NULL PRIMARY KEY,
+    //                                     [LABEL] Text NOT NULL   
+    //                                     )";
+    //
+    //     using (SQLiteConnection c = new SQLiteConnection(mySQLiteConnection))
+    //     {
+    //         c.Open();
+    //         using (SQLiteCommand mySqLiteCommand = new SQLiteCommand(createTaskTableQuery, c))
+    //         {
+    //             mySqLiteCommand.ExecuteNonQuery();
+    //         }
+    //     }
+    // }
+    
     public TaskManagerFilesStorageM()
     {
-        this.mySQLiteConnection = new SQLiteConnection("Data Source=FilesStorage.sqlite3");
-        if (!File.Exists("./FilesStorage.sqlite3"))
+        SQLiteConnection con;
+        // FileInfo f = new FileInfo("FilesStorage.sqlite3");
+        // f.Delete();
+        if (!File.Exists("FilesStorage.sqlite3"))
         {
-        
             SQLiteConnection.CreateFile("FilesStorage.sqlite3");
             Console.WriteLine("FilesStorage Database file created");
-            this.mySQLiteConnection = new SQLiteConnection("Data Source=FilesStorage.sqlite3");
-        }
-        string createTaskTableQuery = @"CREATE TABLE IF NOT EXISTS [Tasks] (
-                                    [Title] Text NOT NULL PRIMARY KEY, 
-                                    [Priority] INTEGER NOT NULL, 
-                                    [Description] Text NULL,
-                                    [CreationTime] Text NULL,
-                                    [IsDone] Text NOT NULL,
-                                    [DueTime] Text NULL
-                                    )";
-        string createSubTaskTableQuery = @"CREATE TABLE IF NOT EXISTS [Sub_Tasks] (
-                                        [Title] Text NOT NULL PRIMARY KEY, 
-                                        [PrimaryTaskTitle] Text NOT NULL,
-                                        [Priority] INTEGER NOT NULL,
-                                        [Description] Text NULL,
-                                        [CreationTime] Text NULL,
-                                        [IsDone] Text NOT NULL,
-                                        [DueTime] Text NULL
-                                        )";
-        string createLabelsTableQuery = @"CREATE TABLE IF NOT EXISTS [Labels] (
-                                        [Title] Text NOT NULL PRIMARY KEY,
-                                        [LABEL] Text NOT NULL   
-                                        )";
+            string createTableQuery = @"CREATE TABLE Tasks(
+                          Title TEXT NOT NULL PRIMARY KEY,
+                          Priority       TEXT        NULL,
+                          Description    TEXT        NULL,
+                          CreationTime   TEXT        NULL,
+                          IsDone         TEXT        NULL,
+                          DueTime        TEXT        NULL
+                          );";
+           
+            string createSubTableQuery = @"CREATE TABLE Sub_Tasks(
+                          PrimaryTaskTitle TEXT  NOT NULL,
+                          SubTaskTitle     TEXT  NOT NULL,
+                          Priority       TEXT        NULL,
+                          Description    TEXT        NULL,
+                          CreationTime   TEXT        NULL,
+                          IsDone         TEXT        NULL,
+                          DueTime       TEXT        NULL
+                          );";
 
-        using (SQLiteConnection c = new SQLiteConnection(mySQLiteConnection))
-        {
-            c.Open();
-            using (SQLiteCommand mySqLiteCommand = new SQLiteCommand(createTaskTableQuery, c))
+            string createLabelsTableQuery = @"CREATE TABLE Labels(
+                          PrimaryTaskTitle TEXT  NOT NULL PRIMARY KEY,
+                          LabelTitle     TEXT  NOT NULL
+                          );";
+            
+            mySQLiteConnection = new SQLiteConnection("Data Source=FilesStorage.sqlite3");
+            using (SQLiteConnection c = new SQLiteConnection(this.mySQLiteConnection))
             {
-                mySqLiteCommand.ExecuteNonQuery();
+                c.Open();
+                using (SQLiteCommand com = new SQLiteCommand(createTableQuery, c))
+                {
+                     // Open the connection to the database
+
+                    com.CommandText = createTableQuery; // Set CommandText to our query that will create the table
+                    com.ExecuteNonQuery(); // Execute the query
+                }
+                
+                using (SQLiteCommand com = new SQLiteCommand(createSubTableQuery, c))
+                {
+                    // Open the connection to the database
+
+                    com.CommandText = createSubTableQuery; // Set CommandText to our query that will create the table
+                    com.ExecuteNonQuery(); // Execute the query
+                }
+                
+                // using (SQLiteCommand com = new SQLiteCommand(createSubTableQuery, c))
+                // {
+                //     // Open the connection to the database
+                //
+                //     com.CommandText = createSubTableQuery; // Set CommandText to our query that will create the table
+                //     com.ExecuteNonQuery(); // Execute the query
+                // }
+                
+                using (SQLiteCommand com = new SQLiteCommand(createLabelsTableQuery, c))
+                {
+                    // Open the connection to the database
+
+                    com.CommandText = createLabelsTableQuery; // Set CommandText to our query that will create the table
+                    com.ExecuteNonQuery(); // Execute the query
+                }
+
             }
+        }
+        else
+        {
+            mySQLiteConnection = new SQLiteConnection("Data Source=FilesStorage.sqlite3");
         }
     }
 
@@ -271,10 +349,10 @@ public class TaskManagerFilesStorageM : ITaskManagerFilesStorage
         // mySqLiteCommand.Connection.Close();
     }
 
-    public List<Task> GetTasksFromDb()
+    public ITaskCollection GetTasksFromDb()
     {
         TaskManagerFilesStorageM myDatabase = new TaskManagerFilesStorageM();
-        List<Task> ret = new List<Task>();
+        ITaskCollection ret = new ListTaskCollection();
         using (SQLiteConnection connection = new SQLiteConnection(myDatabase.mySQLiteConnection))
         {
             connection.Open();
@@ -283,11 +361,12 @@ public class TaskManagerFilesStorageM : ITaskManagerFilesStorage
                 selectCMD.CommandText = "SELECT * FROM Tasks";
                 selectCMD.CommandType = CommandType.Text;
                 SQLiteDataReader myReader = selectCMD.ExecuteReader();
-                // while (myReader.Read())
-                // {
-                //     Task t = new Task(myReader["Title"].ToString(), myReader["Priority"], myReader["Description"].ToString());
-                //     ret.Add(t);
-                // }
+                while (myReader.Read())
+                {
+                    
+                    // Task t = new Task(myReader["Title"], Int(myReader["Priority"]), myReader["Description"], myReader["DueTime"], myReader["Labels"], myReader["SubTasks"]);
+                    // ret.Add(t);
+                }
             }
     
         }

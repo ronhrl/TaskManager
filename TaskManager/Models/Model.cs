@@ -95,17 +95,17 @@ public class Model
         mydatabase.UpdateSubTaskInDb(t);
     }
 
-    public static void Main(string[] args)
-    {
-        Task t = new Task("ttttttt", Task.TaskPriority.High, "fffffff", null, null, null);
-        Task t2 = new Task("aaaa", Task.TaskPriority.High, "bbb", null, null, null);
-        Task t3 = new Task("yit", Task.TaskPriority.High, "cccc", null, null, null);
-        Task t4 = new Task("ron", Task.TaskPriority.Medium, "ddddd", null, null, null);
-        //TaskManagerFilesStorageM tmfs = new TaskManagerFilesStorageM();
-        Model m = new Model();
-        //TaskManagerFilesStorageM tm = GetMyDataBase();
-        //m.InsertTaskM(t);
-        m.InsertSubTaskM(t, t3);
-        //m.DeleteTaskFromDbM(t);
-    }
+    // public static void Main(string[] args)
+    // {
+    //     Task t = new Task("ttttttt", Task.TaskPriority.High, "fffffff", null, null, null);
+    //     Task t2 = new Task("aaaa", Task.TaskPriority.High, "bbb", null, null, null);
+    //     Task t3 = new Task("yit", Task.TaskPriority.High, "cccc", null, null, null);
+    //     Task t4 = new Task("ron", Task.TaskPriority.Medium, "ddddd", null, null, null);
+    //     //TaskManagerFilesStorageM tmfs = new TaskManagerFilesStorageM();
+    //     Model m = new Model();
+    //     //TaskManagerFilesStorageM tm = GetMyDataBase();
+    //     m.InsertTaskM(t);
+    //     m.InsertSubTaskM(t, t3);
+    //     //m.DeleteTaskFromDbM(t);
+    // }
 }

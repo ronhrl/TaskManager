@@ -7,10 +7,11 @@ namespace TaskManager;
 
 public class TaskManagerController
 {
-    private static readonly TaskManagerController Instance = new TaskManagerController();
     private readonly Model _model;
     private readonly MainView _mainView;
     private readonly SearcherFactory _searcherFactory;
+
+    public static TaskManagerController Instance { get; } = new TaskManagerController();
 
     private TaskManagerController()
     {
