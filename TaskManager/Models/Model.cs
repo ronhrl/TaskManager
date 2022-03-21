@@ -8,14 +8,14 @@ namespace TaskManager.Models;
 
 public class Model
 {
-    private TaskManagerFilesStorageM mydatabase;
+    private SqliteStorage mydatabase;
     //List<Task>
     private ITaskCollection _taskCollection;
     // private readonly SearcherFactory _searcherFactory;
     // private readonly SorterFactory _sorterFactory;
     public Model()
     {
-        mydatabase = new TaskManagerFilesStorageM();
+        mydatabase = new SqliteStorage();
         _taskCollection = GetTasksFromDbM();
         // _searcherFactory = new SearcherFactory();
         // _sorterFactory = new SorterFactory();
@@ -123,7 +123,7 @@ public class Model
         try
         {
             // _taskCollection.Update(oldT, newT);
-            mydatabase.UpdateTaskInDb(newT);
+            mydatabase.UpdateTaskInDb(oldT, newT);
             _taskCollection = GetTasksFromDbM();
         }
         catch (Exception e)
@@ -145,9 +145,9 @@ public class Model
         mydatabase.DeleteSubTaskFromDb(t);
     }
 
-    public void UpdateSubTaskInDbM(Task t)
+    public void UpdateSubTaskInDbM(Task oldT, Task newT)
     {
-        mydatabase.UpdateSubTaskInDb(t);
+        mydatabase.UpdateSubTaskInDb(oldT, newT);
     }
 
     public ITaskCollection GetTasksFromDbM()

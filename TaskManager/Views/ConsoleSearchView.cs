@@ -22,6 +22,7 @@ public class ConsoleSearchView : SearchView
 
     public override void Start()
     {
+        SearchersList = TaskManagerController.Instance.GetSearchers();
         string[] options = CreateOptions();
         ConsoleMenu searchMenu = new ConsoleMenu(PROMPT, options);
         int selectedIndex = searchMenu.Run();

@@ -24,6 +24,11 @@ public class TaskManagerController
         _sorterFactory = new SorterFactory();
     }
 
+    public void Start()
+    {
+        _mainView.Start();
+    }
+
     public ITaskCollection GetTasks()
     {
         try
@@ -83,6 +88,16 @@ public class TaskManagerController
         {
             throw new InvalidOperationException($"Error! Could not search for tasks. {e.Message}");
         }
+    }
+
+    public string[] GetSearchers()
+    {
+        return _searcherFactory.SearchersList;
+    }
+    
+    public string[] GetSorters()
+    {
+        return _sorterFactory.SortersList;
     }
     
     public ITaskCollection Sort(string sorterType)

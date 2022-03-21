@@ -2,12 +2,11 @@ namespace TaskManager.Views;
 
 public abstract class TasksView : IView
 {
-    protected TaskCollections.ITaskCollection TaskCollection;
+    protected TaskCollections.ITaskCollection? TaskCollection;
     protected readonly MainView MainView;
 
     protected TasksView(MainView mainView)
     {
-        TaskCollection = TestController.Instance.GetTasks();
         MainView = mainView;
     }
 
