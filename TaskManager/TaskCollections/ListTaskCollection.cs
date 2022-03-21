@@ -113,7 +113,19 @@ public class ListTaskCollection : ITaskCollection
 
         return false;
     }
-    
+
+    public void AddSubTask(Task task, Task subT)
+    {
+        if (task.SubTasks.Contains(subT))
+        {
+            throw new InvalidOperationException("Task with the same title already exists.");
+        }
+
+        _taskList.Remove(task);
+        task.SubTasks.Add(subT);
+        _taskList.Add(task);
+        //this._taskList.Find(task).Add(item); 
+    }
     // public ITaskCollection Sort(IComparable property)
     // {
     //     throw new NotImplementedException();

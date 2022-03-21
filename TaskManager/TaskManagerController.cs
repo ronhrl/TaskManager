@@ -1,5 +1,6 @@
 using TaskManager.Models;
 using TaskManager.Searchers;
+using TaskManager.Sorters;
 using TaskManager.TaskCollections;
 using TaskManager.Views;
 
@@ -10,6 +11,7 @@ public class TaskManagerController
     private readonly Model _model;
     private readonly MainView _mainView;
     private readonly SearcherFactory _searcherFactory;
+    private readonly SorterFactory _sorterFactory;
 
     public static TaskManagerController Instance { get; } = new TaskManagerController();
 
@@ -19,6 +21,7 @@ public class TaskManagerController
         ViewFactory viewFactory = new ConsoleViewFactory();
         _mainView = viewFactory.CreateMainView();
         _searcherFactory = new SearcherFactory();
+        _sorterFactory = new SorterFactory();
     }
 
     public ITaskCollection GetTasks()
@@ -26,7 +29,8 @@ public class TaskManagerController
         try
         {
             // todo return _model.GetTasks();
-            return new ListTaskCollection();
+            return _model.GetTasksFromDbM();
+         //   return new ListTaskCollection();
         }
         catch (Exception e)
         {
@@ -80,6 +84,19 @@ public class TaskManagerController
         catch (Exception e)
         {
             throw new InvalidOperationException($"Error! Could not search for tasks. {e.Message}");
+        }
+    }
+    
+    public ITaskCollection SorterTasks(string sorterType)
+    {
+        try
+        {
+            ITaskSorter sorter = _sorterFactory.CreateSorter(sorterType);
+            return _model.SortTasks(sorter);
+        }
+        catch (Exception e)
+        {
+            throw new InvalidOperationException($"Error! Could not sort the tasks. {e.Message}");
         }
     }
 }

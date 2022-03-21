@@ -4,7 +4,9 @@ using System.Data;
 using System.IO;
 using Microsoft.Data.Sqlite;
 using System.Data.SQLite;
+using TaskManager.Models;
 using TaskManager.TaskCollections;
+
 namespace TaskManager.Models;
 
 
@@ -31,53 +33,10 @@ public class TaskManagerFilesStorageM : ITaskManagerFilesStorage
     //
     //     return myDatabase;
     // }
-    // public TaskManagerFilesStorageM()
-    // {
-    //     this.mySQLiteConnection = new SQLiteConnection("Data Source=FilesStorage.sqlite3");
-    //     if (!File.Exists("./FilesStorage.sqlite3"))
-    //     {
-    //     
-    //         SQLiteConnection.CreateFile("FilesStorage.sqlite3");
-    //         Console.WriteLine("FilesStorage Database file created");
-    //         this.mySQLiteConnection = new SQLiteConnection("Data Source=FilesStorage.sqlite3");
-    //     }
-    //     string createTaskTableQuery = @"CREATE TABLE IF NOT EXISTS [Tasks] (
-    //                                 [Title] Text NOT NULL PRIMARY KEY, 
-    //                                 [Priority] INTEGER NOT NULL, 
-    //                                 [Description] Text NULL,
-    //                                 [CreationTime] Text NULL,
-    //                                 [IsDone] Text NOT NULL,
-    //                                 [DueTime] Text NULL
-    //                                 )";
-    //     string createSubTaskTableQuery = @"CREATE TABLE IF NOT EXISTS [Sub_Tasks] (
-    //                                     [Title] Text NOT NULL PRIMARY KEY, 
-    //                                     [PrimaryTaskTitle] Text NOT NULL,
-    //                                     [Priority] INTEGER NOT NULL,
-    //                                     [Description] Text NULL,
-    //                                     [CreationTime] Text NULL,
-    //                                     [IsDone] Text NOT NULL,
-    //                                     [DueTime] Text NULL
-    //                                     )";
-    //     string createLabelsTableQuery = @"CREATE TABLE IF NOT EXISTS [Labels] (
-    //                                     [Title] Text NOT NULL PRIMARY KEY,
-    //                                     [LABEL] Text NOT NULL   
-    //                                     )";
-    //
-    //     using (SQLiteConnection c = new SQLiteConnection(mySQLiteConnection))
-    //     {
-    //         c.Open();
-    //         using (SQLiteCommand mySqLiteCommand = new SQLiteCommand(createTaskTableQuery, c))
-    //         {
-    //             mySqLiteCommand.ExecuteNonQuery();
-    //         }
-    //     }
-    // }
-    
     public TaskManagerFilesStorageM()
     {
         SQLiteConnection con;
-        // FileInfo f = new FileInfo("FilesStorage.sqlite3");
-        // f.Delete();
+        mySQLiteConnection = new SQLiteConnection("Data Source=FilesStorage.sqlite3");
         if (!File.Exists("FilesStorage.sqlite3"))
         {
             SQLiteConnection.CreateFile("FilesStorage.sqlite3");
@@ -88,7 +47,7 @@ public class TaskManagerFilesStorageM : ITaskManagerFilesStorage
                           Description    TEXT        NULL,
                           CreationTime   TEXT        NULL,
                           IsDone         TEXT        NULL,
-                          DueTime        TEXT        NULL
+                          DueDate        TEXT        NULL
                           );";
            
             string createSubTableQuery = @"CREATE TABLE Sub_Tasks(
@@ -98,15 +57,15 @@ public class TaskManagerFilesStorageM : ITaskManagerFilesStorage
                           Description    TEXT        NULL,
                           CreationTime   TEXT        NULL,
                           IsDone         TEXT        NULL,
-                          DueTime       TEXT        NULL
+                          DueDate        TEXT        NULL
                           );";
 
             string createLabelsTableQuery = @"CREATE TABLE Labels(
-                          PrimaryTaskTitle TEXT  NOT NULL PRIMARY KEY,
+                          PrimaryTaskTitle TEXT  NOT NULL,
                           LabelTitle     TEXT  NOT NULL
                           );";
             
-            mySQLiteConnection = new SQLiteConnection("Data Source=FilesStorage.sqlite3");
+            
             using (SQLiteConnection c = new SQLiteConnection(this.mySQLiteConnection))
             {
                 c.Open();
@@ -126,13 +85,13 @@ public class TaskManagerFilesStorageM : ITaskManagerFilesStorage
                     com.ExecuteNonQuery(); // Execute the query
                 }
                 
-                // using (SQLiteCommand com = new SQLiteCommand(createSubTableQuery, c))
-                // {
-                //     // Open the connection to the database
-                //
-                //     com.CommandText = createSubTableQuery; // Set CommandText to our query that will create the table
-                //     com.ExecuteNonQuery(); // Execute the query
-                // }
+                using (SQLiteCommand com = new SQLiteCommand(createLabelsTableQuery, c))
+                {
+                    // Open the connection to the database
+
+                    com.CommandText = createLabelsTableQuery; // Set CommandText to our query that will create the table
+                    com.ExecuteNonQuery(); // Execute the query
+                }
                 
                 using (SQLiteCommand com = new SQLiteCommand(createLabelsTableQuery, c))
                 {
@@ -144,20 +103,37 @@ public class TaskManagerFilesStorageM : ITaskManagerFilesStorage
 
             }
         }
-        else
-        {
-            mySQLiteConnection = new SQLiteConnection("Data Source=FilesStorage.sqlite3");
-        }
     }
 
+
+    public void AddLabel(Task t, string label)
+    {
+        string insertQuery =
+            "INSERT INTO Labels (`PrimaryTaskTitle`,`LabelTitle`) VALUES (@primarytasktitle, @labeltitle)";
+        using (SQLiteConnection c = new SQLiteConnection(this.mySQLiteConnection))
+        {
+            c.Open();
+            using (SQLiteCommand mySQLiteCommand = new SQLiteCommand(insertQuery, c))
+            {
+                //cmd.ExecuteNonQuery();
+                //mySQLiteCommand.Connection.Open();
+                mySQLiteCommand.Parameters.AddWithValue("@primarytasktitle", t.Title);
+                mySQLiteCommand.Parameters.AddWithValue("@labeltitle", label);
+                mySQLiteCommand.ExecuteNonQuery();
+            }
+        }
+    }
+    
     public void InsertNewTask(Task task)
     {
         //TaskManagerFilesStorageM myDatabase = new TaskManagerFilesStorageM();
-
+        List<string> l = task.Labels;
         string insertQuery =
-            "INSERT INTO Tasks (`Title`,`Priority`, `Description`, `CreationTime`, `IsDone`, `DueTime`) VALUES (@title,@priority,@description,@creationtime,@isdone,@duetime)";
+            "INSERT INTO Tasks (`Title`,`Priority`, `Description`, `CreationTime`, `IsDone`, `DueDate`) VALUES (@title,@priority,@description,@creationtime,@isdone,@duedate)";
         string insertQuerySub =
-            "INSERT INTO Sub_Tasks (`PrimaryTaskTitle`,`Title`, `Description`, `CreationTime`, `IsDone`, `DueTime`) VALUES (@primaryTaskTitle,@title,@priority,@description,@creationtime,@isdone,@duetime)";
+            "INSERT INTO Sub_Tasks (`PrimaryTaskTitle`,`SubTaskTitle`,`Priority`, `Description`, `CreationTime`, `IsDone`, `DueDate`) VALUES (@primaryTaskTitle,@SubTasktitle,@priority,@description,@creationtime,@isdone,@duedate)";
+        string insertLabelQuery =
+            "INSERT INTO Labels (`PrimaryTaskTitle`,`LabelTitle`) VALUES (@primarytasktitle, @labeltitle)";
         //SQLiteCommand mySQLiteCommand = new SQLiteCommand(insertQuery, myDatabase.mySQLiteConnection);
         using (SQLiteConnection c = new SQLiteConnection(this.mySQLiteConnection))
         {
@@ -171,7 +147,7 @@ public class TaskManagerFilesStorageM : ITaskManagerFilesStorage
                 mySQLiteCommand.Parameters.AddWithValue("@description", task.Description);
                 mySQLiteCommand.Parameters.AddWithValue("@creationtime", task.CreationTime);
                 mySQLiteCommand.Parameters.AddWithValue("@isdone", task.IsDone);
-                mySQLiteCommand.Parameters.AddWithValue("@duetime", task.DueTime);
+                mySQLiteCommand.Parameters.AddWithValue("@dueDate", task.DueTime);
                 mySQLiteCommand.ExecuteNonQuery();
             }
 
@@ -187,9 +163,22 @@ public class TaskManagerFilesStorageM : ITaskManagerFilesStorage
                     mySQLiteCommandSub.Parameters.AddWithValue("@description", t.Description);
                     mySQLiteCommandSub.Parameters.AddWithValue("@creationtime", t.CreationTime);
                     mySQLiteCommandSub.Parameters.AddWithValue("@isdone", t.IsDone);
-                    mySQLiteCommandSub.Parameters.AddWithValue("@duetime", t.DueTime);
+                    mySQLiteCommandSub.Parameters.AddWithValue("@duedate", t.DueTime);
                     mySQLiteCommandSub.ExecuteNonQuery();
-
+            
+                }
+            }
+            
+            using (SQLiteCommand mySQLiteCommandLabel = new SQLiteCommand(insertLabelQuery, c))
+            {
+                //cmd.ExecuteNonQuery();
+                //mySQLiteCommand.Connection.Open();
+                foreach (string label in task.Labels)
+                {
+                    mySQLiteCommandLabel.Parameters.AddWithValue("@primarytasktitle", task.Title);
+                    mySQLiteCommandLabel.Parameters.AddWithValue("@labeltitle", label);
+                    mySQLiteCommandLabel.ExecuteNonQuery();
+            
                 }
             }
 
@@ -252,6 +241,26 @@ public class TaskManagerFilesStorageM : ITaskManagerFilesStorage
         //mySQLiteCommand.Connection.Close();
     }
 
+    public void DeleteLabelFromDb(string label)
+    {
+        // TaskManagerFilesStorageM myDatabase = new TaskManagerFilesStorageM();
+        // int taskId = t.Id;
+        string deleteQuery = "DELETE FROM Labels WHERE labeltitle ='" + label + "';";
+        using (SQLiteConnection c = new SQLiteConnection(this.mySQLiteConnection))
+        {
+            c.Open();
+            using (SQLiteCommand mySQLiteCommand = new SQLiteCommand(deleteQuery, c))
+            {
+                mySQLiteCommand.ExecuteNonQuery();        
+            }
+        }
+        // SQLiteCommand mySQLiteCommand = new SQLiteCommand(deleteQuery, myDatabase.mySQLiteConnection);
+        // mySQLiteCommand.Connection.Open();
+        // mySQLiteCommand.ExecuteNonQuery();
+        // mySQLiteCommand.Connection.Close();
+    }
+
+    
     public void DeleteTaskFromDb(Task t)
     {
         // TaskManagerFilesStorageM myDatabase = new TaskManagerFilesStorageM();
@@ -293,6 +302,28 @@ public class TaskManagerFilesStorageM : ITaskManagerFilesStorage
         // mySQLiteCommand.Connection.Open();
         // mySQLiteCommand.ExecuteNonQuery();
         // mySQLiteCommand.Connection.Close();
+    }
+
+    public void UpdateLabel(string label)
+    {
+        // TaskManagerFilesStorageM myDatabase = new TaskManagerFilesStorageM();
+        string updateQuery = "UPDATE Labels SET LabelTitle = @labeltitle  where labeltitle = '" + label + "';";
+        //SQLiteCommand mySqLiteCommand = new SQLiteCommand(updateQuery, myDatabase.mySQLiteConnection);
+        //Console.WriteLine("abc");
+        using (SQLiteConnection c = new SQLiteConnection(this.mySQLiteConnection))
+        {
+            c.Open();
+            using (SQLiteCommand mySQLiteCommand = new SQLiteCommand(updateQuery, c))
+            {
+                mySQLiteCommand.Parameters.AddWithValue("@labeltitle",label);
+                mySQLiteCommand.ExecuteNonQuery();        
+            }
+        }
+        //mySqLiteCommand.Connection.Open();
+        // mySqLiteCommand.Parameters.AddWithValue("@title",task.Title);
+        // mySqLiteCommand.Parameters.AddWithValue("@priority",task.Priority);
+        // mySqLiteCommand.Parameters.AddWithValue("@description",task.Description);
+        // mySqLiteCommand.Connection.Close();
     }
 
     public void UpdateTaskInDb(Task task)
@@ -349,23 +380,97 @@ public class TaskManagerFilesStorageM : ITaskManagerFilesStorage
         // mySqLiteCommand.Connection.Close();
     }
 
+    // public ITaskCollection GetSubTasksFromDb(Task t)
+    // {
+    //     ITaskCollection ret = new ListTaskCollection();
+    //     List<Task> ls;
+    //     using (SQLiteConnection connection = new SQLiteConnection(mySQLiteConnection))
+    //     {
+    //         connection.Open();
+    //         using (SQLiteCommand selectCMD = connection.CreateCommand())
+    //         {
+    //             selectCMD.CommandText = "SELECT * FROM Sub_Tasks WHERE Primar";
+    //             selectCMD.CommandType = CommandType.Text;
+    //             SQLiteDataReader myReader = selectCMD.ExecuteReader();
+    //             while (myReader.Read())
+    //             {
+    //                 // string primaryTaskTitle = myReader.GetValue(0).ToString();
+    //                 // string subTaskTitle = myReader.GetValue(1).ToString();
+    //                 // int priority = myReader.GetInt32(2);
+    //                 // string description = myReader.GetValue(3).ToString();
+    //                 // string creationTime = myReader.GetValue(4).ToString();
+    //                 // string isDone = myReader.GetValue(5).ToString();
+    //                 // string dueDate = myReader.GetValue(6).ToString();
+    //                 // Task t = new Task(subTaskTitle, priority, description, creationTime, isDone, dueDate);
+    //                 // ls.Add(t);
+    //             }
+    //         }
+    //
+    //     }
+    //
+    //     return ret;
+    // }
+    //
+    
     public ITaskCollection GetTasksFromDb()
     {
-        TaskManagerFilesStorageM myDatabase = new TaskManagerFilesStorageM();
+        //TaskManagerFilesStorageM myDatabase = new TaskManagerFilesStorageM();
         ITaskCollection ret = new ListTaskCollection();
-        using (SQLiteConnection connection = new SQLiteConnection(myDatabase.mySQLiteConnection))
+        List<Task> subTasks;
+        List<string> labels;
+        using (SQLiteConnection connection = new SQLiteConnection(mySQLiteConnection))
         {
             connection.Open();
             using (SQLiteCommand selectCMD = connection.CreateCommand())
             {
+                Task.TaskPriority priority;
+                string done;
+                
                 selectCMD.CommandText = "SELECT * FROM Tasks";
                 selectCMD.CommandType = CommandType.Text;
                 SQLiteDataReader myReader = selectCMD.ExecuteReader();
                 while (myReader.Read())
                 {
+                    string title = myReader.GetValue(0).ToString();
+                    string p = myReader.GetValue(1).ToString();
+                    if (p.Equals("High"))
+                    {
+                        priority = Task.TaskPriority.High;
+                    }
+                    else if (p.Equals("Medium"))
+                    {
+                        priority = Task.TaskPriority.Medium;
+                    }
                     
-                    // Task t = new Task(myReader["Title"], Int(myReader["Priority"]), myReader["Description"], myReader["DueTime"], myReader["Labels"], myReader["SubTasks"]);
-                    // ret.Add(t);
+                    else
+                    {
+                        priority = Task.TaskPriority.Low;
+                    }
+                    
+                    //Task.TaskPriority priority = Task.TaskPriority.TryParse(myReader.GetValue(1));
+                    string description = myReader.GetValue(2).ToString();
+                    DateTime creationTime = DateTime.Parse(myReader.GetValue(3).ToString());
+                    done = myReader.GetValue(4).ToString();
+                    DateTime dueTime = DateTime.Parse(myReader.GetValue(5).ToString());
+                    bool isDone;
+                    if (done.Equals("true"))
+                    {
+                        isDone = true;
+                    }
+                    else
+                    {
+                        isDone = false;
+                    }
+
+                    //bool isDone = myReader.GetValue(4).ToString();
+                    //string dueDate = myReader.GetValue(5).ToString();
+                    subTasks = GetSubTasksFromDb(title);
+                    labels = GetLabelsFromDb(title);
+                    Task t = new Task(title, priority, description, dueTime, labels, subTasks);
+                    t.IsDone = isDone;
+                    //ls.Add(t);
+                    //Task t = new Task(myReader["Title"], Int(myReader["Priority"]), myReader["Description"], myReader["DueTime"], myReader["Labels"], myReader["SubTasks"]);
+                    ret.Add(t);
                 }
             }
     
@@ -374,29 +479,83 @@ public class TaskManagerFilesStorageM : ITaskManagerFilesStorage
         return ret;
     }
     
-    public List<Task> GetSubTasksFromDb(Task t)
+    private List<Task> GetSubTasksFromDb(string taskTitle)
     {
         List<Task> ret = new List<Task>();
+        Task.TaskPriority priority;
+        string done;
         using (SQLiteConnection connection = new SQLiteConnection(this.mySQLiteConnection))
         {
             connection.Open();
             using (SQLiteCommand selectCMD = connection.CreateCommand())
             {
-                selectCMD.CommandText = "SELECT * FROM Sub_Tasks WHERE PrimaryTaskTitle ='" + t.Title + "';";
+                selectCMD.CommandText = "SELECT * FROM Sub_Tasks WHERE PrimaryTaskTitle ='" + taskTitle + "';";
                 selectCMD.CommandType = CommandType.Text;
                 SQLiteDataReader myReader = selectCMD.ExecuteReader();
-                // while (myReader.Read())
-                // {
-                //     Task t = new Task(myReader["Title"].ToString(), myReader["Priority"], myReader["Description"].ToString());
-                //     ret.Add(t);
-                // }
+                while (myReader.Read()){
+                    string title = myReader.GetValue(1).ToString();
+                    string p = myReader.GetValue(2).ToString();
+                    if (p.Equals("High"))
+                    {
+                        priority = Task.TaskPriority.High;
+                    }
+                    else if (p.Equals("Medium"))
+                    {
+                        priority = Task.TaskPriority.Medium;
+                    }
+                    
+                    else
+                    {
+                        priority = Task.TaskPriority.Low;
+                    }
+                    
+                    //Task.TaskPriority priority = Task.TaskPriority.TryParse(myReader.GetValue(1));
+                    string description = myReader.GetValue(3).ToString();
+                    DateTime creationTime = DateTime.Parse(myReader.GetValue(4).ToString());
+                    done = myReader.GetValue(5).ToString();
+                    DateTime dueTime = DateTime.Parse(myReader.GetValue(6).ToString());
+                    bool isDone;
+                    if (done.Equals("true"))
+                    {
+                        isDone = true;
+                    }
+                    else
+                    {
+                        isDone = false;
+                    }
+
+                    //bool isDone = myReader.GetValue(4).ToString();
+                    //string dueDate = myReader.GetValue(5).ToString();
+                    Task t = new Task(title, priority, description, dueTime);
+                    t.IsDone = isDone;
+                    //ls.Add(t);
+                    //Task t = new Task(myReader["Title"], Int(myReader["Priority"]), myReader["Description"], myReader["DueTime"], myReader["Labels"], myReader["SubTasks"]);
+                    ret.Add(t);
+                }
             }
-    
         }
-    
         return ret;
     }
 
+    private List<string> GetLabelsFromDb(string taskTitle)
+    {
+        List<string> ret = new List<string>();
+        using (SQLiteConnection connection = new SQLiteConnection(this.mySQLiteConnection))
+        {
+            connection.Open();
+            using (SQLiteCommand selectCMD = connection.CreateCommand())
+            {
+                selectCMD.CommandText = "SELECT * FROM Labels WHERE PrimaryTaskTitle ='" + taskTitle + "';";
+                selectCMD.CommandType = CommandType.Text;
+                SQLiteDataReader myReader = selectCMD.ExecuteReader();
+                while (myReader.Read()){
+                    string title = myReader.GetValue(1).ToString();
+                    ret.Add(title);
+                }
+            }
+        }
+        return ret;
+    }
     // static void Main(string[] args)
     // {
     //     Task t = new Task("yit", Task.TaskPriority.High, "fffffff", null, null, null);

@@ -1,9 +1,9 @@
 using TaskManager.Models;
 using TaskManager.TaskCollections;
 
-namespace TaskManager.Models;
+namespace TaskManager.Sorters;
 
 public interface ITaskSorter
 {
-    List<Task> Sort(ITaskCollection taskCollection);
+    ITaskCollection Sort(ITaskCollection taskCollection);
 }

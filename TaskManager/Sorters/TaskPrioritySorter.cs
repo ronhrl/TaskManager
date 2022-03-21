@@ -1,16 +1,21 @@
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using TaskManager.TaskCollections;
 
-namespace TaskManager.Models;
+namespace TaskManager.Sorters;
 
-public class CreationTimeSorterM : ITaskSorter
+public class TaskPrioritySorter : ITaskSorter
 {
-    public CreationTimeSorterM()
+    public TaskPrioritySorter()
     {
         
     }
-    public List<Task> Sort(ITaskCollection taskCollection)
+
+    public ITaskCollection Sort(ITaskCollection taskCollection)
     {
-        return taskCollection.OrderBy(f => f.CreationTime).ToList();
+        ITaskCollection list = new ListTaskCollection(taskCollection.OrderBy(f => f.Priority).ToList());
+        
+        return list;
     }
 
     // static void Main(string[] args)
@@ -20,7 +25,7 @@ public class CreationTimeSorterM : ITaskSorter
     //     // Task t3 = new Task("ron", Task.TaskPriority.High, "cccc", null, null, null);
     //     Task t4 = new Task("ron", Task.TaskPriority.Medium, "ddddd", null, null, null);
     //     ITaskCollection t1 = new ListTaskCollection();
-    //     CreationTimeSorterM p = new CreationTimeSorterM();
+    //     TaskPrioritySorter p = new TaskPrioritySorter();
     //     t1.Add(t);
     //     t1.Add(t2);
     //     t1.Add(t4);
