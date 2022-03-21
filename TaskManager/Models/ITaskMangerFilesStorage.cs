@@ -9,7 +9,7 @@ public interface ITaskManagerFilesStorage
 
     public void UpdateTaskInDb(Task t);
 
-    public List<Task> GetTasksFromDb();
+    public ITaskCollection GetTasksFromDb();
 
     public void InsertNewSubTask(Task t, Task subTask);
 

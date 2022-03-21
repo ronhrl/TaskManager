@@ -97,14 +97,14 @@ public class Model
         mydatabase.UpdateSubTaskInDb(t);
     }
 
-    public List<Task> GetTasksFromDbM()
+    public ITaskCollection GetTasksFromDbM()
     {
         return mydatabase.GetTasksFromDb();
     }
 
     public static void Main(string[] args)
     {
-        Task t = new Task("ppppppppppppppp", Task.TaskPriority.High, "fffffff", null, null, null);
+        Task t = new Task("yyyyyyy", Task.TaskPriority.High, "fffffff", DateTime.Today, null, null);
         Task t2 = new Task("aaaa", Task.TaskPriority.High, "bbb", null, null, null);
         Task t3 = new Task("yit", Task.TaskPriority.High, "cccc", null, null, null);
         Task t4 = new Task("ron", Task.TaskPriority.Medium, "ddddd", null, null, null);
@@ -112,6 +112,13 @@ public class Model
         Model m = new Model();
         //TaskManagerFilesStorageM tm = GetMyDataBase();
         m.InsertTaskM(t);
+        ITaskCollection ls = new ListTaskCollection();
+        ls = m.GetTasksFromDbM();
+
+        foreach (Task t6 in ls)
+        {
+            Console.WriteLine(t6);
+        }
         // m.InsertTaskM(t2);
         // m.InsertSubTaskM(t, t3);
         // List<Task> l = m.GetTasksFromDbM();
