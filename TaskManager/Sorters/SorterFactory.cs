@@ -1,4 +1,6 @@
-﻿namespace TaskManager.Sorters;
+﻿using TaskManager.Models;
+
+namespace TaskManager.Sorters;
 
 public class SorterFactory
 {
