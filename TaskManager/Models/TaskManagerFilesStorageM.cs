@@ -129,9 +129,9 @@ public class TaskManagerFilesStorageM : ITaskManagerFilesStorage
         //TaskManagerFilesStorageM myDatabase = new TaskManagerFilesStorageM();
         List<string> l = task.Labels;
         string insertQuery =
-            "INSERT INTO Tasks (`Title`,`Priority`, `Description`, `CreationTime`, `IsDone`, `DueDate`) VALUES (@title,@priority,@description,@creationtime,@isdone,@duedate)";
+            "INSERT INTO Tasks (`Title`,`Priority`, `Description`, `CreationTime`, `IsDone`, `DueTime`) VALUES (@title,@priority,@description,@creationtime,@isdone,@duedate)";
         string insertQuerySub =
-            "INSERT INTO Sub_Tasks (`PrimaryTaskTitle`,`SubTaskTitle`,`Priority`, `Description`, `CreationTime`, `IsDone`, `DueDate`) VALUES (@primaryTaskTitle,@SubTasktitle,@priority,@description,@creationtime,@isdone,@duedate)";
+            "INSERT INTO Sub_Tasks (`PrimaryTaskTitle`,`SubTaskTitle`,`Priority`, `Description`, `CreationTime`, `IsDone`, `DueTime`) VALUES (@primaryTaskTitle,@SubTasktitle,@priority,@description,@creationtime,@isdone,@duedate)";
         string insertLabelQuery =
             "INSERT INTO Labels (`PrimaryTaskTitle`,`LabelTitle`) VALUES (@primarytasktitle, @labeltitle)";
         //SQLiteCommand mySQLiteCommand = new SQLiteCommand(insertQuery, myDatabase.mySQLiteConnection);
@@ -448,12 +448,12 @@ public class TaskManagerFilesStorageM : ITaskManagerFilesStorage
                     }
                     
                     //Task.TaskPriority priority = Task.TaskPriority.TryParse(myReader.GetValue(1));
-                    string description = myReader.GetValue(2).ToString();
+                    string description = myReader.GetValue(2).ToString() != "" ? myReader.GetValue(2).ToString() : null;
                     DateTime creationTime = DateTime.Parse(myReader.GetValue(3).ToString());
                     done = myReader.GetValue(4).ToString();
-                    DateTime dueTime = DateTime.Parse(myReader.GetValue(5).ToString());
+                    DateTime? dueTime = myReader.GetValue(5).ToString() != "" ? DateTime.Parse(myReader.GetValue(5).ToString()) : null;
                     bool isDone;
-                    if (done.Equals("true"))
+                    if (done.Equals("1"))
                     {
                         isDone = true;
                     }
@@ -510,10 +510,10 @@ public class TaskManagerFilesStorageM : ITaskManagerFilesStorage
                     }
                     
                     //Task.TaskPriority priority = Task.TaskPriority.TryParse(myReader.GetValue(1));
-                    string description = myReader.GetValue(3).ToString();
+                    string description = myReader.GetValue(3).ToString() != "" ? myReader.GetValue(3).ToString() : null;
                     DateTime creationTime = DateTime.Parse(myReader.GetValue(4).ToString());
                     done = myReader.GetValue(5).ToString();
-                    DateTime dueTime = DateTime.Parse(myReader.GetValue(6).ToString());
+                    DateTime? dueTime = myReader.GetValue(6).ToString() != "" ? DateTime.Parse(myReader.GetValue(6).ToString()) : null;
                     bool isDone;
                     if (done.Equals("true"))
                     {

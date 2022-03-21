@@ -16,9 +16,6 @@
     <ItemGroup>
       <Compile Remove="TaskManagerFileStorage.cs" />
       <Compile Remove="Models\ITaskManagerFilesStorage.cs" />
-      <Compile Remove="Sorters\TaskPrioritySorter.cs" />
-      <Compile Remove="Sorters\CreationTimeSorter.cs" />
-      <Compile Remove="Sorters\DueTimeSorter.cs" />
     </ItemGroup>
 
 </Project>

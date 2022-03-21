@@ -10,13 +10,13 @@ public class Model
 {
     private TaskManagerFilesStorageM mydatabase;
     //List<Task>
-    private readonly ITaskCollection _taskCollection;
+    private ITaskCollection _taskCollection;
     // private readonly SearcherFactory _searcherFactory;
     // private readonly SorterFactory _sorterFactory;
     public Model()
     {
         mydatabase = new TaskManagerFilesStorageM();
-        _taskCollection = new ListTaskCollection();
+        _taskCollection = GetTasksFromDbM();
         // _searcherFactory = new SearcherFactory();
         // _sorterFactory = new SorterFactory();
     }
@@ -122,8 +122,9 @@ public class Model
     {
         try
         {
-            _taskCollection.Update(oldT, newT);
+            // _taskCollection.Update(oldT, newT);
             mydatabase.UpdateTaskInDb(newT);
+            _taskCollection = GetTasksFromDbM();
         }
         catch (Exception e)
         {

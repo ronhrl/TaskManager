@@ -60,7 +60,7 @@ public class ConsoleTaskView : TaskView
         }
         try
         {
-            TestController.Instance.DeleteTask(task!);
+            TaskManagerController.Instance.DeleteTask(task!);
         }
         catch (InvalidOperationException e)
         {

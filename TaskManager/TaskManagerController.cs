@@ -28,9 +28,7 @@ public class TaskManagerController
     {
         try
         {
-            // todo return _model.GetTasks();
             return _model.GetTasksFromDbM();
-         //   return new ListTaskCollection();
         }
         catch (Exception e)
         {
@@ -74,7 +72,7 @@ public class TaskManagerController
         }
     }
 
-    public ITaskCollection SearchTasks(string searcherType, object param)
+    public ITaskCollection Search(string searcherType, object param)
     {
         try
         {
@@ -87,7 +85,7 @@ public class TaskManagerController
         }
     }
     
-    public ITaskCollection SorterTasks(string sorterType)
+    public ITaskCollection Sort(string sorterType)
     {
         try
         {

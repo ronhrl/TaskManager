@@ -5,16 +5,20 @@ namespace TaskManager.Views;
 
 public static class ConsoleViewUtils
 {
-    public static readonly int ErrorMessageWaitTime = 2000;
+    public static readonly int ErrorMessageWaitTime = 4000;
     
-    public static Task CreateTask()
+    public static Task CreateTask(bool isSubTask = false)
     {
         var title = GetTitleFromUser();
         var priority = GetPriorityFromUser();
         var description = GetDescriptionFromUser();
         var dueDate = GetDueDateFromUser();
         var labels = GetLabelsFromUser();
-        var subTasks = GetSubTasksFromUser();
+        var subTasks = new List<Task>();
+        if (!isSubTask)
+        {
+            subTasks = GetSubTasksFromUser();    
+        }
         return new Task(title, priority, description, dueDate, labels, subTasks);
     }
 
@@ -30,7 +34,7 @@ public static class ConsoleViewUtils
             {
                 try
                 {
-                    subTasks.Add(CreateTask());
+                    subTasks.Add(CreateTask(true));
                 }
                 catch (InvalidExpressionException e)
                 {

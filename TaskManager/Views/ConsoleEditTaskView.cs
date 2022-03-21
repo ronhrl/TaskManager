@@ -72,7 +72,7 @@ public class ConsoleEditTaskView : EditTaskView
     
     private void SaveChangesToTask()
     {
-        TestController.Instance.UpdateTask(SelectedTask!, UpdatedTask!);
+        TaskManagerController.Instance.UpdateTask(SelectedTask!, UpdatedTask!);
         MainView.ShowTasksView();
     }
     

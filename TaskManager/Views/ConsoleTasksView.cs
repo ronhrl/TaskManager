@@ -12,7 +12,7 @@ public class ConsoleTasksView : TasksView
     }
     public override void Start()
     {
-        TaskCollection = TestController.Instance.GetTasks();
+        TaskCollection = TaskManagerController.Instance.GetTasks();
         string[] options = CreateOptions();
         ConsoleMenu tasksMenu = new ConsoleMenu(PROMPT, options);
         int selectedIndex = tasksMenu.Run();
@@ -72,12 +72,13 @@ public class ConsoleTasksView : TasksView
     {
         try
         {
-            TestController.Instance.AddTask(ConsoleViewUtils.CreateTask());
+            Task task = ConsoleViewUtils.CreateTask();
+            TaskManagerController.Instance.AddTask(task);
             Start();
         }
         catch (InvalidExpressionException e)
         {
-            Console.WriteLine($"Error! {e.Message}");
+            Console.WriteLine($"{e.Message}");
             Thread.Sleep(ConsoleViewUtils.ErrorMessageWaitTime);
             Start();
         }

@@ -13,7 +13,7 @@ public class ConsoleSearchView : SearchView
     // public ConsoleSearchView(MainView mainView)
     // {
     //     _mainView = mainView;
-    //     _searchersList = TestController.Instance.GetSearchers();
+    //     _searchersList = TaskManagerController.Instance.GetSearchers();
     //     // _options = CreateOptions();
     // }
     public ConsoleSearchView(MainView mainView) : base(mainView)
@@ -42,7 +42,7 @@ public class ConsoleSearchView : SearchView
         {
             Console.WriteLine("Please enter a to search by:");
             string param = Console.ReadLine() ?? throw new InvalidExpressionException("Invalid value!");
-            ITaskCollection results = TestController.Instance.Search(SearchersList[selectedIndex], param);
+            ITaskCollection results = TaskManagerController.Instance.Search(SearchersList[selectedIndex], param);
             MainView.ShowSearchResultsView(results);
         }
     }
