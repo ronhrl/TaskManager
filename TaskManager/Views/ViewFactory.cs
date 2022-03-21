@@ -15,4 +15,8 @@ public abstract class ViewFactory
     public abstract SearchView CreateSearchView(MainView mainView);
 
     public abstract SearchResultsView CreateSearchResultsView(MainView mainView);
+
+    public abstract SortView CreateSortView(MainView mainView);
+
+    public abstract SortResultsView CreateSortResultsView(MainView mainView);
 }

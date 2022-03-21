@@ -2,11 +2,11 @@ using TaskManager.TaskCollections;
 
 namespace TaskManager.Views;
 
-public class ConsoleSearchResultsView : SearchResultsView
+public class ConsoleSortResultsView : SortResultsView
 {
     private static readonly string PROMPT = "Here are your results:";
-
-    public ConsoleSearchResultsView(MainView mainView, ITaskCollection? results = null) : base(mainView, results)
+    
+    public ConsoleSortResultsView(MainView mainView, ITaskCollection? results = null) : base(mainView, results)
     {
     }
 
@@ -24,7 +24,7 @@ public class ConsoleSearchResultsView : SearchResultsView
         int selectedIndex = resultsMenu.Run();
         ApplyAction(selectedIndex, resultsMenu);
     }
-
+    
     private void ApplyAction(int selectedIndex, ConsoleMenu menu)
     {
         if (selectedIndex == menu.GetNumOfOptions() - 2) // dummy option
@@ -40,13 +40,7 @@ public class ConsoleSearchResultsView : SearchResultsView
             MainView.ShowTaskView(Results!.GetTaskAtIndex(selectedIndex));
         }
     }
-
-    // public void SetResults(List<Task> results)
-    // {
-    //     _results = results;
-    //     // _options = CreateOptions();
-    // }
-
+    
     private string[] CreateOptions()
     {
         if (Results == null)

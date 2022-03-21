@@ -12,7 +12,7 @@ public class SorterFactory
 
     public SorterFactory()
     {
-        _sortersList = new[] { "Label", "Title" };
+        _sortersList = new[] { "Priority", "DueTime", "CreationTime" };
     }
 
     public ITaskSorter CreateSorter(string sorterType)

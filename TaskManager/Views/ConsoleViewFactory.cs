@@ -36,4 +36,14 @@ public class ConsoleViewFactory : ViewFactory
     {
         return new ConsoleSearchResultsView(mainView);
     }
+
+    public override SortView CreateSortView(MainView mainView)
+    {
+        return new ConsoleSortView(mainView);
+    }
+
+    public override SortResultsView CreateSortResultsView(MainView mainView)
+    {
+        return new ConsoleSortResultsView(mainView);
+    }
 }

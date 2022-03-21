@@ -22,9 +22,10 @@ public class ConsoleTasksView : TasksView
     private void ApplyAction(int selectedIndex, ConsoleMenu menu)
     {
         int backOption = menu.GetNumOfOptions() - 1;
-        int searchOption = menu.GetNumOfOptions() - 2;
-        int addTaskOption = menu.GetNumOfOptions() - 3;
-        int dummyOption = menu.GetNumOfOptions() - 4;
+        int sortOption = menu.GetNumOfOptions() - 2;
+        int searchOption = menu.GetNumOfOptions() - 3;
+        int addTaskOption = menu.GetNumOfOptions() - 4;
+        int dummyOption = menu.GetNumOfOptions() - 5;
         
         if (selectedIndex == backOption)
         {
@@ -38,6 +39,10 @@ public class ConsoleTasksView : TasksView
         {
             SearchOption();
         }
+        else if (selectedIndex == sortOption)
+        {
+            SortOption();
+        }
         else if (selectedIndex == dummyOption)
         {
             Start();
@@ -46,6 +51,11 @@ public class ConsoleTasksView : TasksView
         {
             ShowTaskOption(selectedIndex);
         }
+    }
+
+    private void SortOption()
+    {
+        MainView.ShowSortView();
     }
 
     private void SearchOption()
@@ -86,7 +96,7 @@ public class ConsoleTasksView : TasksView
 
     private string[] CreateOptions()
     {
-        string[] options = new string[TaskCollection.Count + 4];
+        string[] options = new string[TaskCollection!.Count + 5];
         int count = 0;
         foreach (Task task in TaskCollection)
         {
@@ -102,6 +112,7 @@ public class ConsoleTasksView : TasksView
         options[count++] = "";
         options[count++] = "Add Task";
         options[count++] = "Search for tasks";
+        options[count++] = "Sort tasks";
         options[count] = "Back";
 
         return options;

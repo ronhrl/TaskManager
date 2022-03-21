@@ -11,6 +11,8 @@ public abstract class MainView : IView
     private readonly EditTaskView _editTaskView;
     private readonly SearchView _searchView;
     private readonly SearchResultsView _searchResultsView;
+    private readonly SortView _sortView;
+    private readonly SortResultsView _sortResultsView;
 
     protected MainView(ViewFactory viewFactory)
     {
@@ -21,6 +23,8 @@ public abstract class MainView : IView
         _editTaskView = viewFactory.CreateEditTaskView(this);
         _searchView = viewFactory.CreateSearchView(this);
         _searchResultsView = viewFactory.CreateSearchResultsView(this);
+        _sortView = viewFactory.CreateSortView(this);
+        _sortResultsView = viewFactory.CreateSortResultsView(this);
     }
 
     public void ShowInitialView()
@@ -90,8 +94,31 @@ public abstract class MainView : IView
             OnError(e);
         }
     }
+
+    public void ShowSortView()
+    {
+        try
+        {
+            _sortView.Start();
+        }
+        catch (Exception e)
+        {
+            OnError(e);
+        }
+    }
     
-    // todo add sorter
+    public void ShowSortResultsView(ITaskCollection results)
+    {
+        try
+        {
+            _sortResultsView.SetResults(results);
+            _sortResultsView.Start();
+        }
+        catch (Exception e)
+        {
+            OnError(e);
+        }
+    }
     
     public abstract void Start();
 
