@@ -124,10 +124,5 @@ public class ListTaskCollection : ITaskCollection
         _taskList.Remove(task);
         task.SubTasks.Add(subT);
         _taskList.Add(task);
-        //this._taskList.Find(task).Add(item); 
     }
-    // public ITaskCollection Sort(IComparable property)
-    // {
-    //     throw new NotImplementedException();
-    // }
 }

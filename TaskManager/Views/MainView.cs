@@ -4,7 +4,6 @@ namespace TaskManager.Views;
 
 public abstract class MainView : IView
 {
-    // private readonly ViewFactory _viewFactory;
     private readonly InitialView _initialView;
     private readonly TasksView _tasksView;
     private readonly TaskView _taskView;
@@ -16,7 +15,6 @@ public abstract class MainView : IView
 
     protected MainView(ViewFactory viewFactory)
     {
-        // _viewFactory = viewFactory;
         _initialView = viewFactory.CreateInitialView(this);
         _tasksView = viewFactory.CreateTasksView(this);
         _taskView = viewFactory.CreateTaskView(this);

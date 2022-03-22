@@ -41,12 +41,6 @@ public class ConsoleSearchResultsView : SearchResultsView
         }
     }
 
-    // public void SetResults(List<Task> results)
-    // {
-    //     _results = results;
-    //     // _options = CreateOptions();
-    // }
-
     private string[] CreateOptions()
     {
         if (Results == null)

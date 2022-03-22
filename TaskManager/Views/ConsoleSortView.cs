@@ -31,8 +31,6 @@ public class ConsoleSortView : SortView
         }
         else
         {
-            // Console.WriteLine("Please enter a to search by:");
-            // string param = Console.ReadLine() ?? throw new InvalidExpressionException("Invalid value!");
             ITaskCollection results = TaskManagerController.Instance.Sort(SortersList![selectedIndex]);
             MainView.ShowSortResultsView(results);
         }

@@ -6,16 +6,6 @@ namespace TaskManager.Views;
 public class ConsoleSearchView : SearchView
 {
     private static readonly string PROMPT = "Please choose a property to search by:";
-    // private readonly MainView _mainView;
-    // private readonly string[] _searchersList;
-    // private readonly string[] _options;
-
-    // public ConsoleSearchView(MainView mainView)
-    // {
-    //     _mainView = mainView;
-    //     _searchersList = TaskManagerController.Instance.GetSearchers();
-    //     // _options = CreateOptions();
-    // }
     public ConsoleSearchView(MainView mainView) : base(mainView)
     {
     }

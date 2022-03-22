@@ -58,12 +58,6 @@ public class ConsoleEditTaskView : EditTaskView
         }
     }
 
-    // private void SetUpdatedTask(Task task)
-    // {
-    //     _updatedTask ??= new Task(task.Title);
-    //     _updatedTask.CopyTaskValues(task);
-    // }
-
     private string[] CreateOptions()
     {
         return new []{ "Title", "Priority", "Is Done", "Description", 

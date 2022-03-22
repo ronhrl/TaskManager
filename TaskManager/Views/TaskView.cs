@@ -4,8 +4,6 @@ public abstract class TaskView : IView
 {
     protected Task? SelectedTask;
     protected readonly MainView MainView;
-    // public void SetSelectedTask(Task task);
-
     protected TaskView(MainView mainView, Task? selectedTask = null)
     {
         SelectedTask = selectedTask;
