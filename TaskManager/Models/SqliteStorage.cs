@@ -27,7 +27,7 @@ public class SqliteStorage : ITaskManagerStorage
                           Description    TEXT        NULL,
                           CreationTime   TEXT        NULL,
                           IsDone         TEXT        NULL,
-                          DueDate        TEXT        NULL
+                          DueTime        TEXT        NULL
                           );";
            
             string createSubTableQuery = @"CREATE TABLE Sub_Tasks(
@@ -37,7 +37,7 @@ public class SqliteStorage : ITaskManagerStorage
                           Description    TEXT        NULL,
                           CreationTime   TEXT        NULL,
                           IsDone         TEXT        NULL,
-                          DueDate        TEXT        NULL
+                          DueTime        TEXT        NULL
                           );";
 
             string createLabelsTableQuery = @"CREATE TABLE Labels(
@@ -72,15 +72,6 @@ public class SqliteStorage : ITaskManagerStorage
                     com.CommandText = createLabelsTableQuery; // Set CommandText to our query that will create the table
                     com.ExecuteNonQuery(); // Execute the query
                 }
-                
-                using (SQLiteCommand com = new SQLiteCommand(createLabelsTableQuery, c))
-                {
-                    // Open the connection to the database
-
-                    com.CommandText = createLabelsTableQuery; // Set CommandText to our query that will create the table
-                    com.ExecuteNonQuery(); // Execute the query
-                }
-
             }
         }
     }
