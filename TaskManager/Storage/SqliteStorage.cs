@@ -324,7 +324,7 @@ public class SqliteStorage : ITaskManagerStorage
         return ret;
     }
     
-    private List<Task> GetSubTasksFromDb(string taskTitle)
+    public List<Task> GetSubTasksFromDb(string taskTitle)
     {
         List<Task> ret = new List<Task>();
         Task.TaskPriority priority;
@@ -377,7 +377,7 @@ public class SqliteStorage : ITaskManagerStorage
         return ret;
     }
 
-    private List<string> GetLabelsFromDb(string taskTitle)
+    public List<string> GetLabelsFromDb(string taskTitle)
     {
         List<string> ret = new List<string>();
         using (SQLiteConnection connection = new SQLiteConnection(this.mySQLiteConnection))

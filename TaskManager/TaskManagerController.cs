@@ -15,6 +15,11 @@ public class TaskManagerController
 
     public static TaskManagerController Instance { get; } = new TaskManagerController();
 
+    static TaskManagerController()
+    {
+        
+    }
+
     private TaskManagerController()
     {
         _model = new Model();

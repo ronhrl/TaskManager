@@ -8,7 +8,7 @@ namespace TaskManager.Models;
 
 public class Model
 {
-    private SqliteStorage mydatabase;
+    private ITaskManagerStorage mydatabase;
     private ITaskCollection _taskCollection;
     
     public Model()
@@ -75,6 +75,14 @@ public class Model
         {
             // _taskCollection.Update(oldT, newT);
             mydatabase.UpdateTaskInDb(oldT, newT);
+            if (mydatabase.GetLabelsFromDb(oldT.Title).Count == 0)
+            {
+                foreach (string label in newT.Labels)
+                {
+                    mydatabase.AddLabel(newT, label);    
+                }
+            }
+            
             _taskCollection = GetTasksFromDbM();
         }
         catch (Exception e)

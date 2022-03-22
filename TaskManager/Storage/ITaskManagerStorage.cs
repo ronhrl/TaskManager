@@ -21,6 +21,12 @@ public interface ITaskManagerStorage
 
     public void AddLabel(Task t, string label);
 
+    public void UpdateLabel(string oldLabel, string newLabel);
+
     public void DeleteLabelFromDb(string label);
-    
+
+    public List<string> GetLabelsFromDb(string taskTitle);
+
+    public List<Task> GetSubTasksFromDb(string taskTitle);
+
 }
