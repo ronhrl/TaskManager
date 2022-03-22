@@ -1,3 +1,12 @@
-﻿// See https://aka.ms/new-console-template for more information
+using TaskManager.Views;
 
-Console.WriteLine("Hello, World!");
+namespace TaskManager;
+
+public class Program
+{
+    static void Main(string[] args)
+    {
+        TaskManagerController controller = TaskManagerController.Instance;
+        controller.Start();
+    }
+}
